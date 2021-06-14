@@ -9,14 +9,15 @@ public class Book {
     private String author;
     private LocalDate editorialDate;
     private Boolean state;
-    private User user;
+    private ReservationInfo reservationInfo;
 
-    public Book(Integer id, String title, String author, LocalDate editorialDate, Boolean state) {
+    public Book(int id, String title, String author, LocalDate editorialDate, Boolean state, ReservationInfo reservationInfo) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.editorialDate = editorialDate;
         this.state = state;
+        this.reservationInfo = reservationInfo;
     }
 
     public int getId() {
@@ -59,11 +60,11 @@ public class Book {
         this.state = state;
     }
 
-    public User getUser() {
-        return user;
+    public ReservationInfo getReservationInfo() {
+        return reservationInfo;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setReservationInfo(ReservationInfo reservationInfo) {
+        this.reservationInfo = reservationInfo;
     }
 }
