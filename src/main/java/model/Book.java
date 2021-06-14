@@ -1,16 +1,17 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Book {
     private int id;
     private String title;
     private String author;
-    private Date editorialDate;
+    private LocalDate editorialDate;
     private Boolean state;
     private User user;
 
-    public Book(Integer id, String title, String author, Date editorialDate, Boolean state) {
+    public Book(Integer id, String title, String author, LocalDate editorialDate, Boolean state) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -42,11 +43,11 @@ public class Book {
         this.author = author;
     }
 
-    public Date getEditorialDate() {
+    public LocalDate getEditorialDate() {
         return editorialDate;
     }
 
-    public void setEditorialDate(Date editorialDate) {
+    public void setEditorialDate(LocalDate editorialDate) {
         this.editorialDate = editorialDate;
     }
 
