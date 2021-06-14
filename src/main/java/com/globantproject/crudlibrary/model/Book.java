@@ -1,7 +1,6 @@
-package model;
+package com.globantproject.crudlibrary.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Book {
     private int id;

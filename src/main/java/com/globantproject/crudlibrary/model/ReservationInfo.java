@@ -1,4 +1,4 @@
-package model;
+package com.globantproject.crudlibrary.model;
 
 import java.time.LocalDate;
 
