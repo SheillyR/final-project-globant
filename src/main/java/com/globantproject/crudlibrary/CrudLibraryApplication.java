@@ -8,6 +8,7 @@ public class CrudLibraryApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CrudLibraryApplication.class, args);
+
 	}
 
 }

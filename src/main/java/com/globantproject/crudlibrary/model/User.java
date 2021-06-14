@@ -1,4 +1,4 @@
-package model;
+package com.globantproject.crudlibrary.model;
 
 public class User {
     private String name;
