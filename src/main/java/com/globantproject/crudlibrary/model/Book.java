@@ -16,7 +16,7 @@ public class Book implements BookDAO {
     }
 
     public Book(String title, String author, int editorialDate, Boolean state) {
-        this.title = title;
+        this.title = title
         this.author = author;
         this.editorialDate = editorialDate;
         this.state = state;
