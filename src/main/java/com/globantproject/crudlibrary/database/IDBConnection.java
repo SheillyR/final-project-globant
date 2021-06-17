@@ -10,12 +10,12 @@ public interface IDBConnection {
 
         try {
             // Llamar al driver
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(URL+DB, USER, PASSWORD);
             if (connection != null){
                 System.out.println("se estableció la conexión");
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
             // Fines de debug
             e.printStackTrace();
         } finally {
