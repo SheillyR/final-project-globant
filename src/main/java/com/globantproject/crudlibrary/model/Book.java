@@ -1,22 +1,25 @@
 package com.globantproject.crudlibrary.model;
 
-import java.time.LocalDate;
+import com.globantproject.crudlibrary.dao.BookDAO;
 
-public class Book {
+import java.util.ArrayList;
+
+public class Book implements BookDAO {
     private int id;
     private String title;
     private String author;
-    private LocalDate editorialDate;
+    private int editorialDate;
     private Boolean state;
     private ReservationInfo reservationInfo;
 
-    public Book(int id, String title, String author, LocalDate editorialDate, Boolean state, ReservationInfo reservationInfo) {
-        this.id = id;
+    public Book() {
+    }
+
+    public Book(String title, String author, int editorialDate, Boolean state) {
         this.title = title;
         this.author = author;
         this.editorialDate = editorialDate;
         this.state = state;
-        this.reservationInfo = reservationInfo;
     }
 
     public int getId() {
@@ -43,11 +46,11 @@ public class Book {
         this.author = author;
     }
 
-    public LocalDate getEditorialDate() {
+    public int getEditorialDate() {
         return editorialDate;
     }
 
-    public void setEditorialDate(LocalDate editorialDate) {
+    public void setEditorialDate(int editorialDate) {
         this.editorialDate = editorialDate;
     }
 
@@ -65,5 +68,10 @@ public class Book {
 
     public void setReservationInfo(ReservationInfo reservationInfo) {
         this.reservationInfo = reservationInfo;
+    }
+
+    public static ArrayList<Book> makeBookList() {
+        Book book = new Book();
+        return book.read();
     }
 }
