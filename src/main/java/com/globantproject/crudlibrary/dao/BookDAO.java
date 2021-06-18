@@ -37,4 +37,23 @@ public interface BookDAO extends IDBConnection {
         }
         return books;
     }
+
+    default void create() {
+        try (Connection connection = connectToDB()) {
+
+            String queryCreate = "INSERT INTO libros(Title, Author, EditorialYear, State)" +
+                    "VALUES (?,?,?,?);";
+            PreparedStatement sentence = connection.prepareStatement(queryCreate);
+
+            sentence.setString(1, "Title2");
+            sentence.setString(2, "Author2");
+            sentence.setInt(3,2021);
+            sentence.setBoolean(4,true);
+            sentence.executeUpdate();
+        } catch (SQLException e) {
+            e.getStackTrace();
+        }
+
+    }
+
 }
