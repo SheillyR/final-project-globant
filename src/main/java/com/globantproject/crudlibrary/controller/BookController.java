@@ -3,9 +3,7 @@ package com.globantproject.crudlibrary.controller;
 import com.globantproject.crudlibrary.model.Book;
 import com.globantproject.crudlibrary.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +23,24 @@ public class BookController {
     @GetMapping
     public List<Book> getBooks() {
         return bookService.getBooks();
+    }
+
+    @PostMapping
+    public void createNewBook(@RequestBody Book book){
+        bookService.addNewBook(book);
+    }
+
+    @DeleteMapping(path = "{bookId}")
+    public void deleteStudent(@PathVariable("bookId") Long bookId){
+        bookService.deleteBook(bookId);
+    }
+
+    @PutMapping(path = "{bookId}")
+    public void updateBook(
+            @PathVariable("bookId") Long bookId,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author) {
+        bookService.updateStudent(bookId, title, author);
     }
 
 }
