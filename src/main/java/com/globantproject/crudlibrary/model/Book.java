@@ -1,29 +1,47 @@
 package com.globantproject.crudlibrary.model;
 
-import java.time.LocalDate;
+import javax.persistence.*;
 
+//This tells Hibernate to make a table out of this class
+@Entity
+@Table
 public class Book {
-    private int id;
+    @Id
+    //@GeneratedValue(strategy=GenerationType.AUTO)
+
+    @SequenceGenerator(
+            name = "book_sequence",
+            sequenceName = "book_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "book_sequence"
+    )
+
+    private Long id;
     private String title;
     private String author;
-    private LocalDate editorialDate;
+    private int editorialYear;
     private Boolean state;
-    private ReservationInfo reservationInfo;
+    // private ReservationInfo reservationInfo;
 
-    public Book(int id, String title, String author, LocalDate editorialDate, Boolean state, ReservationInfo reservationInfo) {
-        this.id = id;
+    public Book(){
+
+    }
+    public Book(String title, String author, int editorialYear, Boolean state) {
         this.title = title;
         this.author = author;
-        this.editorialDate = editorialDate;
+        this.editorialYear= editorialYear;
         this.state = state;
-        this.reservationInfo = reservationInfo;
+        //this.reservationInfo = reservationInfo;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,12 +61,12 @@ public class Book {
         this.author = author;
     }
 
-    public LocalDate getEditorialDate() {
-        return editorialDate;
+    public int getEditorialYear() {
+        return editorialYear;
     }
 
-    public void setEditorialDate(LocalDate editorialDate) {
-        this.editorialDate = editorialDate;
+    public void setEditorialYear(int editorialYear) {
+        this.editorialYear = editorialYear;
     }
 
     public Boolean getState() {
@@ -59,11 +77,4 @@ public class Book {
         this.state = state;
     }
 
-    public ReservationInfo getReservationInfo() {
-        return reservationInfo;
-    }
-
-    public void setReservationInfo(ReservationInfo reservationInfo) {
-        this.reservationInfo = reservationInfo;
-    }
 }
