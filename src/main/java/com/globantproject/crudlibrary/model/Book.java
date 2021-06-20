@@ -4,27 +4,18 @@ import javax.persistence.*;
 
 //This tells Hibernate to make a table out of this class
 @Entity
-@Table
+@Table(name = "books")
 public class Book {
     @Id
-    //@GeneratedValue(strategy=GenerationType.AUTO)
-
-    @SequenceGenerator(
-            name = "book_sequence",
-            sequenceName = "book_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "book_sequence"
-    )
-
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String title;
     private String author;
     private int editorialYear;
     private Boolean state;
-    // private ReservationInfo reservationInfo;
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "reservationInfoId", nullable = false)
+    private ReservationInfo reservationInfo;
 
     public Book(){
 
@@ -77,4 +68,11 @@ public class Book {
         this.state = state;
     }
 
+    public ReservationInfo getReservationInfo() {
+        return reservationInfo;
+    }
+
+    public void setReservationInfo(ReservationInfo reservationInfo) {
+        this.reservationInfo = reservationInfo;
+    }
 }
