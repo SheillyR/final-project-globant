@@ -1,11 +1,20 @@
 package com.globantproject.crudlibrary.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private String name;
     private String lastName;
+    @Id
     private Integer documentNumber;
     private String email;
 
+    public User() {
+
+    }
     public User(String name, String lastName, Integer documentNumber, String email) {
         this.name = name;
         this.lastName = lastName;

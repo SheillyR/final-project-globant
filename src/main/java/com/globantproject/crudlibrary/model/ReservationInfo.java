@@ -1,24 +1,36 @@
 package com.globantproject.crudlibrary.model;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
+@Entity
+@Table(name = "reservations")
 public class ReservationInfo {
-    private User user;
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    // private User user;
+    private Long reservationId;
     private LocalDate startDate;
     private LocalDate endDate;
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
-    public ReservationInfo(User user, LocalDate startDate, LocalDate endDate) {
-        this.user = user;
+    public ReservationInfo(){
+
+    }
+    public ReservationInfo(LocalDate startDate, LocalDate endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public User getUser() {
-        return user;
+    public Long getReservationId() {
+        return reservationId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setReservationId(Long reservationId) {
+        this.reservationId = reservationId;
     }
 
     public LocalDate getStartDate() {
@@ -35,5 +47,13 @@ public class ReservationInfo {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
