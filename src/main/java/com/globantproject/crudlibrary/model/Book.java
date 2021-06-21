@@ -7,20 +7,25 @@ import javax.persistence.*;
 @Table(name = "books")
 public class Book {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String author;
     private int editorialYear;
-    private Boolean state;
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "reservationInfoId", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private State state;
+    @JoinColumn(name = "reservationInfoId")
+    @OneToOne(cascade = CascadeType.ALL)
     private ReservationInfo reservationInfo;
 
+    public enum State {
+        AVAILABLE,
+        RESERVED
+    }
     public Book(){
 
     }
-    public Book(String title, String author, int editorialYear, Boolean state) {
+    public Book(String title, String author, int editorialYear, State state) {
         this.title = title;
         this.author = author;
         this.editorialYear= editorialYear;
@@ -60,11 +65,11 @@ public class Book {
         this.editorialYear = editorialYear;
     }
 
-    public Boolean getState() {
+    public State getState() {
         return state;
     }
 
-    public void setState(Boolean state) {
+    public void setState(State state) {
         this.state = state;
     }
 
