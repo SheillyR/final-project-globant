@@ -22,7 +22,7 @@ public class BookConfig {
                     "Title One",
                     "Anonymous",
                     2000,
-                    Boolean.TRUE
+                    Book.State.AVAILABLE
             );
 
             ReservationInfo reservation1 = new ReservationInfo(
@@ -41,7 +41,7 @@ public class BookConfig {
                     "Title Two",
                     "Anonymous",
                     1900,
-                    Boolean.TRUE
+                    Book.State.AVAILABLE
             );
             ReservationInfo reservation2 = new ReservationInfo(
                     LocalDate.of(2019, Month.APRIL, 10),
