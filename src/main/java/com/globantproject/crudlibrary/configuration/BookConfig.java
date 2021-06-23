@@ -1,7 +1,7 @@
 package com.globantproject.crudlibrary.configuration;
 
 import com.globantproject.crudlibrary.model.Book;
-import com.globantproject.crudlibrary.model.ReservationInfo;
+import com.globantproject.crudlibrary.model.Reservation;
 import com.globantproject.crudlibrary.model.State;
 import com.globantproject.crudlibrary.model.User;
 import com.globantproject.crudlibrary.repository.BookRepository;
@@ -24,7 +24,7 @@ public class BookConfig {
                     LocalDate.of(2021, Month.MAY, 10)
             );
             */
-            ReservationInfo reservationInfoTest = null;
+            Reservation reservationInfoTest = null;
 
             Book book1 = new Book(
                     "Title One",
@@ -41,7 +41,7 @@ public class BookConfig {
                     "pepitoroca@gmail.com"
             );
 */
-            ReservationInfo reservation2 = new ReservationInfo(
+            Reservation reservation2 = new Reservation(
                     LocalDate.of(2019, Month.APRIL, 10),
                     LocalDate.of(2021, Month.MAY, 10)
             );
