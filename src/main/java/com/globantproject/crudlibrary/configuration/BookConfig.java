@@ -1,7 +1,8 @@
 package com.globantproject.crudlibrary.configuration;
 
 import com.globantproject.crudlibrary.model.Book;
-import com.globantproject.crudlibrary.model.ReservationInfo;
+import com.globantproject.crudlibrary.model.Reservation;
+import com.globantproject.crudlibrary.model.State;
 import com.globantproject.crudlibrary.model.User;
 import com.globantproject.crudlibrary.repository.BookRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -18,34 +19,37 @@ public class BookConfig {
     @Bean
     CommandLineRunner commandLineRunner(BookRepository bookRepository) {
         return args -> {
+            /*ReservationInfo reservation1 = new ReservationInfo(
+                    LocalDate.of(2020, Month.JANUARY, 10),
+                    LocalDate.of(2021, Month.MAY, 10)
+            );
+            */
+            Reservation reservationInfoTest = null;
+
             Book book1 = new Book(
                     "Title One",
                     "Anonymous",
                     2000,
-                    Book.State.AVAILABLE
+                    State.AVAILABLE
             );
 
-            ReservationInfo reservation1 = new ReservationInfo(
-                    LocalDate.of(2020, Month.JANUARY, 10),
-                    LocalDate.of(2021, Month.MAY, 10)
-            );
-
+/*
             User user1 = new User(
                     "Pepito",
                     "Roca",
                     18256397,
                     "pepitoroca@gmail.com"
             );
-
+*/
+            Reservation reservation2 = new Reservation(
+                    LocalDate.of(2019, Month.APRIL, 10),
+                    LocalDate.of(2021, Month.MAY, 10)
+            );
             Book book2 = new Book(
                     "Title Two",
                     "Anonymous",
                     1900,
-                    Book.State.AVAILABLE
-            );
-            ReservationInfo reservation2 = new ReservationInfo(
-                    LocalDate.of(2019, Month.APRIL, 10),
-                    LocalDate.of(2021, Month.MAY, 10)
+                    State.AVAILABLE
             );
 
             User user2 = new User(
@@ -54,8 +58,9 @@ public class BookConfig {
                     56325639,
                     "juanitalazo@gmail.com"
             );
-            book1.setReservationInfo(reservation1);
-            reservation1.setUser(user1);
+
+            book1.setReservationInfo(reservationInfoTest);
+            //reservation1.setUser(user1);
             book2.setReservationInfo(reservation2);
             reservation2.setUser(user2);
 

@@ -14,17 +14,14 @@ public class Book {
     private int editorialYear;
     @Enumerated(value = EnumType.STRING)
     private State state;
-    @JoinColumn(name = "reservationInfoId")
+    @JoinColumn(name = "reservationId")
     @OneToOne(cascade = CascadeType.ALL)
-    private ReservationInfo reservationInfo;
+    private Reservation reservationInfo;
 
-    public enum State {
-        AVAILABLE,
-        RESERVED
-    }
     public Book(){
 
     }
+
     public Book(String title, String author, int editorialYear, State state) {
         this.title = title;
         this.author = author;
@@ -73,11 +70,11 @@ public class Book {
         this.state = state;
     }
 
-    public ReservationInfo getReservationInfo() {
+    public Reservation getReservationInfo() {
         return reservationInfo;
     }
 
-    public void setReservationInfo(ReservationInfo reservationInfo) {
+    public void setReservationInfo(Reservation reservationInfo) {
         this.reservationInfo = reservationInfo;
     }
 }

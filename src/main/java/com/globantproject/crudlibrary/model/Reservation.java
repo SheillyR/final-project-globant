@@ -6,31 +6,23 @@ import java.util.List;
 
 @Entity
 @Table(name = "reservations")
-public class ReservationInfo {
+public class Reservation {
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    // private User user;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long reservationId;
-    private LocalDate startDate;
-    private LocalDate endDate;
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "userId", nullable = false)
     private User user;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
-    public ReservationInfo(){
+    public Reservation(){
 
     }
-    public ReservationInfo(LocalDate startDate, LocalDate endDate) {
+    public Reservation(LocalDate startDate, LocalDate endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
-    }
-
-    public Long getReservationId() {
-        return reservationId;
-    }
-
-    public void setReservationId(Long reservationId) {
-        this.reservationId = reservationId;
     }
 
     public LocalDate getStartDate() {
