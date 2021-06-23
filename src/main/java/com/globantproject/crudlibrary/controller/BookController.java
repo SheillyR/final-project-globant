@@ -39,8 +39,9 @@ public class BookController {
     public void updateBook(
             @PathVariable("bookId") Long bookId,
             @RequestParam(required = false) String title,
-            @RequestParam(required = false) String author) {
-        bookService.updateStudent(bookId, title, author);
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) Integer editorialYear) {
+        bookService.updateBook(bookId, title, author, editorialYear);
     }
 
 }
