@@ -28,6 +28,10 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    public List<Book> getBooksByState(State state) {
+        return bookRepository.findBooksByState(state);
+    }
+
     public Book getBookById(Long bookId) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalStateException(
