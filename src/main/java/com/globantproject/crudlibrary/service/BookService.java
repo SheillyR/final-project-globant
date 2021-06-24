@@ -1,6 +1,8 @@
 package com.globantproject.crudlibrary.service;
 
 import com.globantproject.crudlibrary.model.Book;
+import com.globantproject.crudlibrary.model.Reservation;
+import com.globantproject.crudlibrary.model.State;
 import com.globantproject.crudlibrary.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,37 +26,20 @@ public class BookService {
     public List<Book> getBooks() {
 
         return bookRepository.findAll();
-
-        /*
-        return List.of(
-                new Book(
-                        1,
-                        "Title One",
-                        "Anonymous",
-                        2000,
-                        Boolean.TRUE,
-                        new ReservationInfo(
-                                new User(
-                                        "Maria",
-                                        "Lipa",
-                                        73589621,
-                                        "maria@gmail.com"
-                                ),
-                                LocalDate.of(2000, Month.JANUARY, 10),
-                                LocalDate.of(2000, Month.JANUARY, 10)
-                        )
-                )
-        );
-
-         */
     }
 
 
     public void addNewBook(Book book) {
-        Optional<Book> bookByAuthor = bookRepository
-                .findStudentByAuthor(book.getAuthor());
-        if(bookByAuthor.isPresent()){
-            throw new IllegalStateException("author taken");
+        Optional<Book> bookByAuthorAndTitle = bookRepository
+                .findBookByAuthorAndTitle(book.getAuthor(), book.getTitle());
+        if(bookByAuthorAndTitle.isPresent()){
+            throw new IllegalStateException("This author and title are taken, enter other values");
+        }
+        if(Objects.equals(book.getState(), State.RESERVED) && book.getReservation() == null){
+            throw new IllegalStateException("Complete reservation info");
+        }
+        if(Objects.equals(book.getState(), State.AVAILABLE) && book.getReservation() != null){
+            throw new IllegalStateException("Reservation info must be null");
         }
         bookRepository.save(book);
     }
@@ -69,12 +54,13 @@ public class BookService {
     }
 
     @Transactional
-    public void updateStudent(Long bookId,
+    public void updateBook(Long bookId,
                               String title,
-                              String author) {
+                              String author,
+                              Integer editorialYear) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalStateException(
-                        "book with id " + bookId + " does not exists"));
+                        "book with id " + bookId + " does not exist"));
 
         if(title != null &&
                 title.length() > 0 &&
@@ -86,7 +72,7 @@ public class BookService {
                 author.length() > 0 &&
                 !Objects.equals(book.getAuthor(), author)) {
             Optional<Book> bookByAuthor = bookRepository
-                    .findStudentByAuthor(author);
+                    .findBookByAuthorAndTitle(author, title);
             if(bookByAuthor.isPresent()) {
                 book.setAuthor(author);
             } else {
@@ -94,4 +80,13 @@ public class BookService {
             }
         }
     }
+
+    @Transactional
+    public void updateReservation(Long bookId, Reservation reservation){
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalStateException(
+                        "book with id " + bookId + " does not exist"));
+        book.setReservation(reservation);
+    }
+
 }

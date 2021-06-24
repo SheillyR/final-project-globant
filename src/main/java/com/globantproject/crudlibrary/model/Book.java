@@ -16,7 +16,7 @@ public class Book {
     private State state;
     @JoinColumn(name = "reservationId")
     @OneToOne(cascade = CascadeType.ALL)
-    private Reservation reservationInfo;
+    private Reservation reservation;
 
     public Book(){
 
@@ -70,11 +70,11 @@ public class Book {
         this.state = state;
     }
 
-    public Reservation getReservationInfo() {
-        return reservationInfo;
+    public Reservation getReservation() {
+        return reservation;
     }
 
-    public void setReservationInfo(Reservation reservationInfo) {
-        this.reservationInfo = reservationInfo;
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 }
