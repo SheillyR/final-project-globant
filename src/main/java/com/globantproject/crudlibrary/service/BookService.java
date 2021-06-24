@@ -35,10 +35,10 @@ public class BookService {
         if(bookByAuthorAndTitle.isPresent()){
             throw new IllegalStateException("This author and title are taken, enter other values");
         }
-        if(Objects.equals(book.getState(), State.RESERVED) && book.getReservationInfo() == null){
+        if(Objects.equals(book.getState(), State.RESERVED) && book.getReservation() == null){
             throw new IllegalStateException("Complete reservation info");
         }
-        if(Objects.equals(book.getState(), State.AVAILABLE) && book.getReservationInfo() != null){
+        if(Objects.equals(book.getState(), State.AVAILABLE) && book.getReservation() != null){
             throw new IllegalStateException("Reservation info must be null");
         }
         bookRepository.save(book);
@@ -82,11 +82,11 @@ public class BookService {
     }
 
     @Transactional
-    public void updateReservation(Long bookId, Reservation reservationInfo){
+    public void updateReservation(Long bookId, Reservation reservation){
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalStateException(
                         "book with id " + bookId + " does not exist"));
-        book.setReservationInfo(reservationInfo);
+        book.setReservation(reservation);
     }
 
 }
