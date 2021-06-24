@@ -59,9 +59,9 @@ public class BookConfig {
                     "juanitalazo@gmail.com"
             );
 
-            book1.setReservationInfo(reservationInfoTest);
+            book1.setReservation(reservationInfoTest);
             //reservation1.setUser(user1);
-            book2.setReservationInfo(reservation2);
+            book2.setReservation(reservation2);
             reservation2.setUser(user2);
 
             bookRepository.saveAll(
