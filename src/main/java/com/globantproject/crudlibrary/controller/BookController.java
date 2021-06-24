@@ -1,6 +1,7 @@
 package com.globantproject.crudlibrary.controller;
 
 import com.globantproject.crudlibrary.model.Book;
+import com.globantproject.crudlibrary.model.Reservation;
 import com.globantproject.crudlibrary.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,13 @@ public class BookController {
             @RequestParam(required = false) String author,
             @RequestParam(required = false) Integer editorialYear) {
         bookService.updateBook(bookId, title, author, editorialYear);
+    }
+
+    @PutMapping(path = "/updateReservation/{bookId}")
+    public void updateReservation(
+            @PathVariable("bookId") Long bookId,
+            @RequestBody(required = false) Reservation reservationInfo) {
+        bookService.updateReservation(bookId, reservationInfo);
     }
 
 }
