@@ -49,7 +49,7 @@ public class BookConfig {
                     "Title Two",
                     "Anonymous",
                     1900,
-                    State.AVAILABLE
+                    State.RESERVED
             );
 
             User user2 = new User(
