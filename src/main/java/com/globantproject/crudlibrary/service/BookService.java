@@ -1,6 +1,8 @@
 package com.globantproject.crudlibrary.service;
 
 import com.globantproject.crudlibrary.model.Book;
+import com.globantproject.crudlibrary.model.Reservation;
+import com.globantproject.crudlibrary.model.State;
 import com.globantproject.crudlibrary.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,12 @@ public class BookService {
         if(bookByAuthorAndTitle.isPresent()){
             throw new IllegalStateException("This author and title are taken, enter other values");
         }
-
+        if(Objects.equals(book.getState(), State.RESERVED) && book.getReservationInfo() == null){
+            throw new IllegalStateException("Complete reservation info");
+        }
+        if(Objects.equals(book.getState(), State.AVAILABLE) && book.getReservationInfo() != null){
+            throw new IllegalStateException("Reservation info must be null");
+        }
         bookRepository.save(book);
     }
 
@@ -73,4 +80,13 @@ public class BookService {
             }
         }
     }
+
+    @Transactional
+    public void updateReservation(Long bookId, Reservation reservationInfo){
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalStateException(
+                        "book with id " + bookId + " does not exist"));
+        book.setReservationInfo(reservationInfo);
+    }
+
 }
