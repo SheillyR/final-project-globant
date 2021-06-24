@@ -28,6 +28,12 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    public Book getBookById(Long bookId) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalStateException(
+                        "book with id " + bookId + " does not exists"));
+        return book;
+    }
 
     public void addNewBook(Book book) {
         Optional<Book> bookByAuthorAndTitle = bookRepository
