@@ -48,8 +48,8 @@ public class BookController {
     @PutMapping(path = "/updateReservation/{bookId}")
     public void updateReservation(
             @PathVariable("bookId") Long bookId,
-            @RequestBody(required = false) Reservation reservationInfo) {
-        bookService.updateReservation(bookId, reservationInfo);
+            @RequestBody(required = false) Reservation reservation) {
+        bookService.updateReservation(bookId, reservation);
     }
 
 }
