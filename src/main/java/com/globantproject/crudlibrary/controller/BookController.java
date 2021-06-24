@@ -2,6 +2,7 @@ package com.globantproject.crudlibrary.controller;
 
 import com.globantproject.crudlibrary.model.Book;
 import com.globantproject.crudlibrary.model.Reservation;
+import com.globantproject.crudlibrary.model.State;
 import com.globantproject.crudlibrary.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,11 @@ public class BookController {
         return bookService.getBooks();
     }
 
+    @GetMapping(path = "/state/{state}")
+    public List<Book> getBooksByState(@PathVariable("state") State state) {
+        return bookService.getBooksByState(state);
+    }
+
     @GetMapping(path = "/id/{bookId}")
     public Book getBookById(@PathVariable("bookId") Long bookId){
         return bookService.getBookById(bookId);
@@ -37,7 +43,7 @@ public class BookController {
     }
 
     @DeleteMapping(path = "{bookId}")
-    public void deleteStudent(@PathVariable("bookId") Long bookId){
+    public void deleteBook(@PathVariable("bookId") Long bookId){
         bookService.deleteBook(bookId);
     }
 
