@@ -1,6 +1,7 @@
 package com.globantproject.crudlibrary.model;
 
 import javax.persistence.*;
+import java.util.Locale;
 
 //This tells Hibernate to make a table out of this class
 @Entity
@@ -43,7 +44,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = title.toUpperCase();
     }
 
     public String getAuthor() {
@@ -51,7 +52,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
-        this.author = author;
+        this.author = author.toUpperCase();
     }
 
     public int getEditorialYear() {

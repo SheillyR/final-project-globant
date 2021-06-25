@@ -27,7 +27,7 @@ public class User {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.toUpperCase();
     }
 
     public String getLastName() {
@@ -35,7 +35,7 @@ public class User {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = lastName.toUpperCase();
     }
 
     public Integer getDocumentNumber() {
@@ -51,6 +51,6 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.toUpperCase();
     }
 }
