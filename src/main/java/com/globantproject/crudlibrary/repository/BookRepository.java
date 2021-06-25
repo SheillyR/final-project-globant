@@ -2,6 +2,7 @@ package com.globantproject.crudlibrary.repository;
 
 import com.globantproject.crudlibrary.model.Book;
 import com.globantproject.crudlibrary.model.State;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,5 +16,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book>  findBookByAuthorAndTitle(String Author, String Title);
 
     @Query("SELECT b FROM Book b WHERE b.state = ?1")
-    List<Book> findBooksByState(State state);
+    List<Book> findBooksByState(State state, Sort sort);
 }
