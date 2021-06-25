@@ -1,10 +1,13 @@
 package com.globantproject.crudlibrary.service;
 
+import com.globantproject.crudlibrary.exception.BookBadRequestException;
+import com.globantproject.crudlibrary.exception.BookNotFoundException;
 import com.globantproject.crudlibrary.model.Book;
 import com.globantproject.crudlibrary.model.Reservation;
 import com.globantproject.crudlibrary.model.State;
 import com.globantproject.crudlibrary.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,39 +28,39 @@ public class BookService {
 
     public List<Book> getBooks() {
 
-        return bookRepository.findAll();
+        return bookRepository.findAll(Sort.by("title").ascending());
     }
 
     public List<Book> getBooksByState(State state) {
-        return bookRepository.findBooksByState(state);
+        return bookRepository.findBooksByState(state, Sort.by("title").ascending());
     }
 
-    public Book getBookById(Long bookId) {
+    public Book getBookById(Long bookId) throws BookNotFoundException {
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new IllegalStateException(
-                        "book with id " + bookId + " does not exists"));
+                .orElseThrow(() -> new BookNotFoundException(
+                        "book with id " + bookId + " does not exist"));
         return book;
     }
 
-    public void addNewBook(Book book) {
+    public void addNewBook(Book book) throws BookBadRequestException {
         Optional<Book> bookByAuthorAndTitle = bookRepository
                 .findBookByAuthorAndTitle(book.getAuthor(), book.getTitle());
         if(bookByAuthorAndTitle.isPresent()){
-            throw new IllegalStateException("This author and title are taken, enter other values");
+            throw new BookBadRequestException("This author and title are taken, enter other values");
         }
         if(Objects.equals(book.getState(), State.RESERVED) && book.getReservation() == null){
-            throw new IllegalStateException("Complete reservation info");
+            throw new BookBadRequestException("Complete reservation info");
         }
         if(Objects.equals(book.getState(), State.AVAILABLE) && book.getReservation() != null){
-            throw new IllegalStateException("Reservation info must be null");
+            throw new BookBadRequestException("Reservation info must be null");
         }
         bookRepository.save(book);
     }
 
-    public void deleteBook(Long bookId) {
+    public void deleteBook(Long bookId) throws BookNotFoundException {
         boolean existsBook = bookRepository.existsById(bookId);
         if (!existsBook) {
-            throw new IllegalStateException(
+            throw new BookNotFoundException(
                     "book with id " + bookId + " does not exists");
         }
         bookRepository.deleteById(bookId);
@@ -67,9 +70,9 @@ public class BookService {
     public void updateBook(Long bookId,
                               String title,
                               String author,
-                              Integer editorialYear) {
+                              Integer editorialYear) throws BookNotFoundException, BookBadRequestException {
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new IllegalStateException(
+                .orElseThrow(() -> new BookNotFoundException(
                         "book with id " + bookId + " does not exist"));
 
         if(title != null &&
@@ -86,15 +89,15 @@ public class BookService {
             if(bookByAuthor.isPresent()) {
                 book.setAuthor(author);
             } else {
-                throw new IllegalStateException("author taken");
+                throw new BookBadRequestException("author taken");
             }
         }
     }
 
     @Transactional
-    public void updateReservation(Long bookId, Reservation reservation){
+    public void updateReservation(Long bookId, Reservation reservation) throws BookNotFoundException {
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new IllegalStateException(
+                .orElseThrow(() -> new BookNotFoundException(
                         "book with id " + bookId + " does not exist"));
         book.setReservation(reservation);
     }
