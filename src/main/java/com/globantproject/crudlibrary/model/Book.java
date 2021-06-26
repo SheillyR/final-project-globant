@@ -10,11 +10,20 @@ public class Book {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+
+    @Column(length = 100, nullable = false)
     private String title;
+
+    @Column(length = 100, nullable = false)
     private String author;
+
+    @Column(length = 4)
     private int editorialYear;
+
+    @Column(length = 8, nullable = false)
     @Enumerated(value = EnumType.STRING)
     private State state;
+
     @JoinColumn(name = "reservationId")
     @OneToOne(cascade = CascadeType.ALL)
     private Reservation reservation;
@@ -28,7 +37,6 @@ public class Book {
         this.author = author;
         this.editorialYear= editorialYear;
         this.state = state;
-        //this.reservationInfo = reservationInfo;
     }
 
     public Long getId() {
