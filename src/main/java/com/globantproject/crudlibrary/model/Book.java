@@ -20,7 +20,7 @@ public class Book {
     @Column(length = 4)
     private int editorialYear;
 
-    @Column(length = 8, nullable = false)
+    @Column(length = 10, nullable = false)
     @Enumerated(value = EnumType.STRING)
     private State state;
 
