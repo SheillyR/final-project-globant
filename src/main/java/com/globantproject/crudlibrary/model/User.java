@@ -1,15 +1,24 @@
 package com.globantproject.crudlibrary.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "users")
 public class User {
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+
+    @Column(length = 50, nullable = false)
     private String name;
+
+    @Column(length = 50)
     private String lastName;
+
     @Id
+    @Column(length = 16, nullable = false)
     private Integer documentNumber;
+
+    @Column(length = 50, nullable = false)
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)+[A-Z]{2,6}$")
     private String email;
 
     public User() {
@@ -27,7 +36,7 @@ public class User {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.toUpperCase();
     }
 
     public String getLastName() {
@@ -35,7 +44,7 @@ public class User {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = lastName.toUpperCase();
     }
 
     public Integer getDocumentNumber() {
@@ -51,6 +60,6 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.toUpperCase();
     }
 }

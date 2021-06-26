@@ -1,8 +1,9 @@
 package com.globantproject.crudlibrary.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Date;
 
 @Entity
 @Table(name = "reservations")
@@ -11,33 +12,40 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long reservationId;
+
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "userId", nullable = false)
     private User user;
-    private LocalDate startDate;
-    private LocalDate endDate;
+
+    @Column(nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private Date startDate;
+
+    @Column(nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private Date endDate;
 
     public Reservation(){
 
     }
-    public Reservation(LocalDate startDate, LocalDate endDate) {
+    public Reservation(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
