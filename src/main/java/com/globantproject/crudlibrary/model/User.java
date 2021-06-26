@@ -1,15 +1,24 @@
 package com.globantproject.crudlibrary.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "users")
 public class User {
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+
+    @Column(length = 50, nullable = false)
     private String name;
+
+    @Column(length = 50)
     private String lastName;
+
     @Id
+    @Column(length = 16, nullable = false)
     private Integer documentNumber;
+
+    @Column(length = 50, nullable = false)
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)+[A-Z]{2,6}$")
     private String email;
 
     public User() {
