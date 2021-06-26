@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Date;
 import java.util.List;
 
 @Configuration
@@ -42,8 +43,8 @@ public class BookConfig {
             );
 */
             Reservation reservation2 = new Reservation(
-                    LocalDate.of(2019, Month.APRIL, 10),
-                    LocalDate.of(2021, Month.MAY, 10)
+                    new Date(2019,04,10),
+                    new Date(2021,05, 10)
             );
             Book book2 = new Book(
                     "Title Two",
