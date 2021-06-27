@@ -52,13 +52,11 @@ public class BookController {
         bookService.deleteBook(bookId);
     }
 
-    @PutMapping(path = "{bookId}")
+    @PutMapping(path = "/updateBook/{bookId}")
     public void updateBook(
             @PathVariable("bookId") Long bookId,
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String author,
-            @RequestParam(required = false) Integer editorialYear) throws BookNotFoundException, BookBadRequestException {
-        bookService.updateBook(bookId, title, author, editorialYear);
+            @RequestBody(required = false) Book book) throws BookNotFoundException, BookBadRequestException {
+        bookService.updateBook(bookId, book);
     }
 
     @PutMapping(path = "/updateReservation/{bookId}")

@@ -67,39 +67,50 @@ public class BookService {
     }
 
     @Transactional
-    public void updateBook(Long bookId,
-                              String title,
-                              String author,
-                              Integer editorialYear) throws BookNotFoundException, BookBadRequestException {
+    public Book updateBook(Long bookId,
+                           Book newBook) throws BookNotFoundException, BookBadRequestException {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException(
                         "book with id " + bookId + " does not exist"));
 
-        if(title != null &&
-                title.length() > 0 &&
-                !Objects.equals(book.getTitle(), title)) {
-            book.setTitle(title);
-        }
+        if((newBook.getAuthor() != null
+                && newBook.getAuthor().length() > 0
+                && !Objects.equals(book.getAuthor(), newBook.getAuthor()))
+                && newBook.getTitle() != null
+                && newBook.getTitle().length() > 0
+                && !Objects.equals(book.getTitle(), newBook.getTitle())
+                && newBook.getEditorialYear() != 0
+        ) {
+            Optional<Book> bookByAuthorAndTitle = bookRepository
+                    .findBookByAuthorAndTitle(newBook.getAuthor(), newBook.getTitle());
 
-        if(author != null &&
-                author.length() > 0 &&
-                !Objects.equals(book.getAuthor(), author)) {
-            Optional<Book> bookByAuthor = bookRepository
-                    .findBookByAuthorAndTitle(author, title);
-            if(bookByAuthor.isPresent()) {
-                book.setAuthor(author);
+            book.setEditorialYear(newBook.getEditorialYear());
+
+            if(!bookByAuthorAndTitle.isPresent()) {
+                book.setTitle(newBook.getTitle());
+                book.setAuthor(newBook.getAuthor());
+
             } else {
-                throw new BookBadRequestException("author taken");
+                throw new BookBadRequestException("author and title are taken");
             }
         }
+
+        book.setState(newBook.getState());
+        book.setReservation(newBook.getReservation());
+
+        return bookRepository.save(book);
     }
 
     @Transactional
-    public void updateReservation(Long bookId, Reservation reservation) throws BookNotFoundException {
+    public Book updateReservation(Long bookId, Reservation newReservation) throws BookNotFoundException {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException(
                         "book with id " + bookId + " does not exist"));
-        book.setReservation(reservation);
+
+        book.getReservation().setStartDate(newReservation.getStartDate());
+        book.getReservation().setEndDate(newReservation.getEndDate());
+
+        return bookRepository.save(book);
     }
 
 }

@@ -18,7 +18,7 @@ public class User {
     private Integer documentNumber;
 
     @Column(length = 50, nullable = false)
-    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)+[A-Z]{2,6}$")
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$")
     private String email;
 
     public User() {
