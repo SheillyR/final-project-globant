@@ -3,11 +3,15 @@ package com.globantproject.crudlibrary.repository;
 import com.globantproject.crudlibrary.model.Book;
 import com.globantproject.crudlibrary.model.Reservation;
 import com.globantproject.crudlibrary.model.State;
-import org.junit.jupiter.api.Disabled;
+import com.globantproject.crudlibrary.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -18,32 +22,83 @@ class BookRepositoryTest {
     @Autowired
     private BookRepository underTest;
 
+    Reservation reservationInfoTest = null;
+
+    Book bookOne = new Book(
+            "Title One",
+            "Anonymous",
+            2000,
+            State.AVAILABLE
+    );
+    Reservation reservationTwo = new Reservation(
+            new Date(2019,04,10),
+            new Date(2021,05, 10)
+    );
+
+    User userTwo = new User(
+            "Juanita",
+            "Lazo",
+            56325639,
+            "juanitalazo@gmail.com"
+    );
+    Book bookTwo = new Book(
+            "Hola Mundo",
+            "None",
+            2021,
+            State.RESERVED
+    );
+
+    List<Book> availableBooks = new ArrayList<>();
+    List<Book> reservedBooks = new ArrayList<>();
+
     @Test
     void itShouldFindBookByAuthorAndTitle() {
         // given
-        String title = "Title One";
-        String author = "Anonymous";
-        Reservation reservationInfoTest = null;
-
-        Book book = new Book(
-                title,
-                author,
-                2000,
-                State.AVAILABLE
-        );
-        book.setReservation(reservationInfoTest);
-        underTest.save(book);
-
+        bookOne.setReservation(reservationInfoTest);
+        underTest.save(bookOne);
 
         // when
-        Optional<Book> expected = underTest.findBookByAuthorAndTitle(title, author);
+        Optional<Book> expected = underTest.findBookByAuthorAndTitle("Anonymous", "Title One");
 
         // then
-        assertThat(book).usingRecursiveComparison().isEqualTo(expected);
+        assertThat(bookOne).isEqualTo(expected.get());
     }
 
-    @Disabled
     @Test
-    void findBooksByState() {
+    void findBooksByAvailableState() {
+        // given
+        bookOne.setReservation(reservationInfoTest);
+        reservationTwo.setUser(userTwo);
+        bookTwo.setReservation(reservationTwo);
+
+        underTest.save(bookOne);
+        underTest.save(bookTwo);
+
+        availableBooks.add(bookOne);
+
+        // when
+        List<Book> expected = underTest.findBooksByState(State.AVAILABLE, Sort.by("title").ascending());
+
+        // then
+        assertThat(availableBooks).isEqualTo(expected);
+    }
+
+    @Test
+    void findBooksByReservedState() {
+        // given
+        bookOne.setReservation(reservationInfoTest);
+        reservationTwo.setUser(userTwo);
+        bookTwo.setReservation(reservationTwo);
+
+        underTest.save(bookOne);
+        underTest.save(bookTwo);
+
+        reservedBooks.add(bookTwo);
+
+        // when
+        List<Book> expected = underTest.findBooksByState(State.RESERVED, Sort.by("title").ascending());
+
+        // then
+        assertThat(reservedBooks).isEqualTo(expected);
     }
 }
