@@ -16,18 +16,23 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceTest {
 
-    @Mock private BookRepository bookRepository;private BookService underTest;
+    @Mock private BookRepository bookRepository;
+    private BookService underTest;
 
     @BeforeEach
     void setUp() {
@@ -43,8 +48,46 @@ class BookServiceTest {
     }
 
     @Test
-    @Disabled
-    void getBooksByState() {
+    void canGetBooksByState() {
+        // given
+        String title = "Title One";
+        String author = "Anonymous";
+        Reservation reservationInfoTest = null;
+
+        Book bookDummyOne = new Book(
+                title,
+                author,
+                2000,
+                State.AVAILABLE
+        );
+
+        Book bookDummyTwo = new Book(
+                "Hola",
+                "None",
+                2021,
+                State.AVAILABLE
+        );
+
+        bookDummyOne.setReservation(reservationInfoTest);
+        bookDummyTwo.setReservation(reservationInfoTest);
+
+        List<Book> booksDummy = new ArrayList<>(
+                Arrays.asList(
+                        bookDummyTwo,
+                        bookDummyOne
+                )
+        );
+
+        // when
+        when((bookRepository)
+                .findBooksByState(State.AVAILABLE, Sort.by("title").ascending()))
+                .thenReturn(booksDummy);
+
+        List<Book> books = underTest.getBooksByState(State.AVAILABLE);
+        assertThat(books).isEqualTo(booksDummy);
+        // then
+        verify(bookRepository).findBooksByState(State.AVAILABLE, Sort.by("title").ascending());
+
     }
 
     @Test
