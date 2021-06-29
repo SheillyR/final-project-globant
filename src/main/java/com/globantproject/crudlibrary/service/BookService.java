@@ -95,6 +95,13 @@ public class BookService {
             }
         }
 
+        if(Objects.equals(book.getState(), State.RESERVED) && book.getReservation() == null){
+            throw new BookBadRequestException("Complete reservation info");
+        }
+        if(Objects.equals(book.getState(), State.AVAILABLE) && book.getReservation() != null){
+            throw new BookBadRequestException("Reservation info must be null");
+        }
+
         book.setState(newBook.getState());
         book.setReservation(newBook.getReservation());
 
