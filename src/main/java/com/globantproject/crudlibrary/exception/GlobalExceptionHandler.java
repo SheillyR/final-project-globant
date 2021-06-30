@@ -18,7 +18,6 @@ public class GlobalExceptionHandler {
                                                 bookNotFoundException.getMessage(),
                                                 webRequest.getDescription(false));
         return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
-
     }
 
     @ExceptionHandler(BookBadRequestException.class)
@@ -28,7 +27,5 @@ public class GlobalExceptionHandler {
                 bookBadRequestException.getMessage(),
                 webRequest.getDescription(false));
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
-
     }
-
 }
