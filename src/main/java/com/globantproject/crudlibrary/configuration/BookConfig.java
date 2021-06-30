@@ -9,8 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.Date;
 import java.util.List;
 
@@ -20,39 +18,39 @@ public class BookConfig {
     @Bean
     CommandLineRunner commandLineRunner(BookRepository bookRepository) {
         return args -> {
-            Reservation reservationInfoTest = null;
+            Reservation nullReservation = null;
 
-            Book book1 = new Book(
+            Book bookOne = new Book(
                     "Title A",
                     "Anonymous",
                     2000,
                     State.AVAILABLE
             );
 
-            Reservation reservation2 = new Reservation(
+            Reservation reservationTwo = new Reservation(
                     new Date(2019,04,10),
                     new Date(2021,05, 10)
             );
-            Book book2 = new Book(
+            Book bookTwo = new Book(
                     "Title B",
                     "Anonymous",
                     1900,
                     State.RESERVED
             );
 
-            User user2 = new User(
+            User userTwo = new User(
                     "Juanita",
                     "Lazo",
                     56325639,
                     "juanitalazo@gmail.com"
             );
 
-            book1.setReservation(reservationInfoTest);
-            book2.setReservation(reservation2);
-            reservation2.setUser(user2);
+            bookOne.setReservation(nullReservation);
+            bookTwo.setReservation(reservationTwo);
+            reservationTwo.setUser(userTwo);
 
             bookRepository.saveAll(
-                    List.of(book1, book2)
+                    List.of(bookOne, bookTwo)
             );
 
         };
