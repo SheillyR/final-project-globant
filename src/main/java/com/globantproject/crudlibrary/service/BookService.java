@@ -67,18 +67,16 @@ public class BookService {
     }
 
     @Transactional
-    public Book updateBook(Long bookId,
+    public void updateBook(Long bookId,
                            Book newBook) throws BookNotFoundException, BookBadRequestException {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException(
                         "book with id " + bookId + " does not exist"));
 
-        if((newBook.getAuthor() != null
+        if(newBook.getAuthor() != null
                 && newBook.getAuthor().length() > 0
-                && !Objects.equals(book.getAuthor(), newBook.getAuthor()))
                 && newBook.getTitle() != null
                 && newBook.getTitle().length() > 0
-                && !Objects.equals(book.getTitle(), newBook.getTitle())
                 && newBook.getEditorialYear() != 0
         ) {
             Optional<Book> bookByAuthorAndTitle = bookRepository
@@ -105,11 +103,11 @@ public class BookService {
         book.setState(newBook.getState());
         book.setReservation(newBook.getReservation());
 
-        return bookRepository.save(book);
+        bookRepository.save(book);
     }
 
     @Transactional
-    public Book updateReservation(Long bookId, Reservation newReservation) throws BookNotFoundException {
+    public void updateReservation(Long bookId, Reservation newReservation) throws BookNotFoundException {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException(
                         "book with id " + bookId + " does not exist"));
@@ -117,7 +115,6 @@ public class BookService {
         book.getReservation().setStartDate(newReservation.getStartDate());
         book.getReservation().setEndDate(newReservation.getEndDate());
 
-        return bookRepository.save(book);
+        bookRepository.save(book);
     }
-
 }
