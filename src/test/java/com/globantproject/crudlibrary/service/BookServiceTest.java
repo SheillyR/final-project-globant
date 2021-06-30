@@ -5,6 +5,7 @@ import com.globantproject.crudlibrary.exception.BookNotFoundException;
 import com.globantproject.crudlibrary.model.Book;
 import com.globantproject.crudlibrary.model.Reservation;
 import com.globantproject.crudlibrary.model.State;
+import com.globantproject.crudlibrary.model.User;
 import com.globantproject.crudlibrary.repository.BookRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,10 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -39,6 +37,32 @@ class BookServiceTest {
     void setUp() {
         underTest = new BookService(bookRepository);
     }
+
+    Book bookDummyOne = new Book(
+            "Title One",
+            "Anonymous",
+            2000,
+            State.AVAILABLE
+    );
+    Book bookDummyTwo = new Book(
+            "Title Two",
+            "Anonymous 2",
+            2020,
+            State.AVAILABLE
+    );
+
+    Reservation reservationDummy = null;
+    Reservation reservationDummyTwo = new Reservation(
+            new Date(2019,04,10),
+            new Date(2021,05, 10)
+    );
+
+    User userDummyTwo = new User(
+            "Juanita",
+            "Lazo",
+            56325639,
+            "juanitalazo@gmail.com"
+    );
 /*
     @Test
     void canGetAllBooks() {
@@ -52,24 +76,10 @@ class BookServiceTest {
     @Test
     void canGetAllBooks() {
         // given
-        Reservation reservationInfoTest = null;
+        bookDummyOne.setReservation(reservationDummy);
+        bookDummyTwo.setReservation(reservationDummy);
 
-        Book bookDummy1 = new Book(
-                "Title One",
-                "Anonymous",
-                2000,
-                State.AVAILABLE
-        );
-        Book bookDummy2 = new Book(
-                "Title Two",
-                "Anonymous 2",
-                2020,
-                State.AVAILABLE
-        );
-        bookDummy1.setReservation(reservationInfoTest);
-        bookDummy2.setReservation(reservationInfoTest);
-
-        List<Book> booksDummy = new ArrayList<>(Arrays.asList(bookDummy1, bookDummy2));
+        List<Book> booksDummy = new ArrayList<>(Arrays.asList(bookDummyOne, bookDummyTwo));
         // when
         when((bookRepository).findAll(Sort.by("title").ascending())).thenReturn(booksDummy);
         List<Book> books = underTest.getBooks();
@@ -81,26 +91,8 @@ class BookServiceTest {
     @Test
     void canGetBooksByState() {
         // given
-        String title = "Title One";
-        String author = "Anonymous";
-        Reservation reservationInfoTest = null;
-
-        Book bookDummyOne = new Book(
-                title,
-                author,
-                2000,
-                State.AVAILABLE
-        );
-
-        Book bookDummyTwo = new Book(
-                "Hola",
-                "None",
-                2021,
-                State.AVAILABLE
-        );
-
-        bookDummyOne.setReservation(reservationInfoTest);
-        bookDummyTwo.setReservation(reservationInfoTest);
+        bookDummyOne.setReservation(reservationDummy);
+        bookDummyTwo.setReservation(reservationDummy);
 
         List<Book> booksDummy = new ArrayList<>(
                 Arrays.asList(
@@ -124,22 +116,14 @@ class BookServiceTest {
     @Test
     void canGetBookById() throws BookNotFoundException{
         // given
-        Reservation reservationInfoTest = null;
-
-        Book bookDummy = new Book(
-                "Title One",
-                "Anonymous",
-                2000,
-                State.AVAILABLE
-        );
-        bookDummy.setReservation(reservationInfoTest);
-        bookDummy.setId(2L);
+        bookDummyTwo.setReservation(reservationDummy);
+        bookDummyTwo.setId(2L);
         // when
-        when((bookRepository).findById(bookDummy.getId())).thenReturn(Optional.of(bookDummy));
+        when((bookRepository).findById(bookDummyTwo.getId())).thenReturn(Optional.of(bookDummyTwo));
         Book book = underTest.getBookById(2L);
         assertThat(book.getId()).isEqualTo(2L);
         // then
-        verify(bookRepository).findById(bookDummy.getId());
+        verify(bookRepository).findById(bookDummyTwo.getId());
     }
 
     @Test
@@ -158,20 +142,10 @@ class BookServiceTest {
     @Test
     void canAddBook() throws BookBadRequestException {
         // given
-        String title = "Title One";
-        String author = "Anonymous";
-        Reservation reservationInfoTest = null;
-
-        Book book = new Book(
-                title,
-                author,
-                2000,
-                State.AVAILABLE
-        );
-        book.setReservation(reservationInfoTest);
+        bookDummyOne.setReservation(reservationDummy);
 
         // when
-        underTest.addNewBook(book);
+        underTest.addNewBook(bookDummyOne);
 
         // then
         ArgumentCaptor<Book> bookArgumentCaptor =
@@ -182,32 +156,52 @@ class BookServiceTest {
 
         Book capturedBook = bookArgumentCaptor.getValue();
 
-        assertThat(capturedBook).isEqualTo(book);
+        assertThat(capturedBook).isEqualTo(bookDummyOne);
     }
 
     @Test
-    void willThrowWhenTitleAndAuthorAreTaken() throws BookBadRequestException {
+    void willThrowWhenTitleAndAuthorAreTaken() {
         // given
-        String title = "Title One";
-        String author = "Anonymous";
-        Reservation reservationInfoTest = null;
-
-        Book book = new Book(
-                title,
-                author,
-                2000,
-                State.AVAILABLE
-        );
-        book.setReservation(reservationInfoTest);
+        bookDummyOne.setReservation(reservationDummy);
 
         given(bookRepository.findBookByAuthorAndTitle(anyString(), anyString()))
-                .willReturn(java.util.Optional.of(book));
+                .willReturn(java.util.Optional.of(bookDummyOne));
 
         // when
         // then
-        assertThatThrownBy(() -> underTest.addNewBook(book))
+        assertThatThrownBy(() -> underTest.addNewBook(bookDummyOne))
                 .isInstanceOf(BookBadRequestException.class)
                 .hasMessageContaining("This author and title are taken, enter other values");
+
+        verify(bookRepository, never()).save(any());
+    }
+
+    @Test
+    void willThrowWhenBookIsReservedAndItIsNotFillInfo() {
+        // given
+        bookDummyOne.setReservation(reservationDummy);
+        bookDummyOne.setState(State.RESERVED);
+
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.addNewBook(bookDummyOne))
+                .isInstanceOf(BookBadRequestException.class)
+                .hasMessageContaining("Complete reservation info");
+
+        verify(bookRepository, never()).save(any());
+    }
+
+    @Test
+    void willThrowWhenBookIsAvailableAndItIsFillInfo() {
+        // given
+        bookDummyTwo.setReservation(reservationDummyTwo);
+        reservationDummyTwo.setUser(userDummyTwo);
+
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.addNewBook(bookDummyTwo))
+                .isInstanceOf(BookBadRequestException.class)
+                .hasMessageContaining("Reservation info must be null");
 
         verify(bookRepository, never()).save(any());
     }
@@ -249,32 +243,21 @@ class BookServiceTest {
     @Test
     void updateBook() throws BookBadRequestException, BookNotFoundException {
         // given
-        String title = "Title One";
-        String author = "Anonymous";
-        Reservation reservationInfoTest = null;
+        bookDummyOne.setReservation(reservationDummy);
+        bookDummyOne.setId(1L);
 
         Book newBook = new Book(
-                title,
-                author,
+                "Title One",
+                "Anonymous",
                 2021,
                 State.AVAILABLE
         );
-        newBook.setReservation(reservationInfoTest);
+        newBook.setReservation(reservationDummy);
         newBook.setId(1L);
 
-        Book book = new Book(
-                title,
-                author,
-                2000,
-                State.AVAILABLE
-        );
-        book.setId(1L);
-        book.setReservation(reservationInfoTest);
-
         // when
-        when(bookRepository.findById(newBook.getId())).thenReturn(Optional.of(book));
-        book.setEditorialYear(newBook.getEditorialYear());
-        underTest.updateBook(newBook.getId(), book);
+        when(bookRepository.findById(bookDummyOne.getId())).thenReturn(Optional.of(newBook));
+        underTest.updateBook(bookDummyOne.getId(), newBook);
 
         // then
         ArgumentCaptor<Book> bookArgumentCaptor =
@@ -284,10 +267,29 @@ class BookServiceTest {
 
         Book capturedBook = bookArgumentCaptor.getValue();
 
-        assertThat(capturedBook).isEqualTo(book);
+        assertThat(capturedBook).isEqualTo(newBook);
 
     }
+    /*
+    @Test
+    void willThrowWhenTitleAndAuthorAreTakenInUpdate() {
+        // given
+        bookDummyOne.setReservation(reservationDummy);
+        bookDummyOne.setId(1L);
 
+        when(bookRepository.findById(bookDummyOne.getId())).thenReturn(Optional.of(bookDummyOne));
+        given(bookRepository.findBookByAuthorAndTitle("Anonymous", "Title One"))
+                .willReturn(java.util.Optional.of(bookDummyOne));
+
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.updateBook(1L, bookDummyOne))
+                .isInstanceOf(BookBadRequestException.class)
+                .hasMessageContaining("This author and title are taken, enter other values");
+
+        verify(bookRepository, never()).save(any());
+    }
+*/
     @Test
     @Disabled
     void updateReservation() {
