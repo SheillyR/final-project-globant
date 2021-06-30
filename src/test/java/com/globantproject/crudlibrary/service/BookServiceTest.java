@@ -119,7 +119,7 @@ class BookServiceTest {
         bookDummyTwo.setReservation(reservationDummy);
         bookDummyTwo.setId(2L);
         // when
-        when((bookRepository).findById(bookDummyTwo.getId())).thenReturn(Optional.of(bookDummyTwo));
+        when(bookRepository.findById(bookDummyTwo.getId())).thenReturn(Optional.of(bookDummyTwo));
         Book book = underTest.getBookById(2L);
         assertThat(book.getId()).isEqualTo(2L);
         // then
