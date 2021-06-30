@@ -63,15 +63,6 @@ class BookServiceTest {
             56325639,
             "juanitalazo@gmail.com"
     );
-/*
-    @Test
-    void canGetAllBooks() {
-        // when
-        underTest.getBooks();
-        // then
-        verify(bookRepository).findAll(Sort.by("title").ascending());
-    }
-*/
 
     @Test
     void canGetAllBooks() {
@@ -241,6 +232,32 @@ class BookServiceTest {
     }
 
     @Test
+    void updateBook() throws BookBadRequestException, BookNotFoundException {
+        // given
+        bookDummyOne.setReservation(reservationDummy);
+        bookDummyOne.setId(1L);
+
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(bookDummyOne));
+
+        Book bookUpdate = new Book(
+                "Title Update",
+                "None",
+                2020,
+                State.AVAILABLE
+        );
+        bookUpdate.setReservation(reservationDummy);
+        bookUpdate.setId(1L);
+
+        when(bookRepository.findById(1L)).thenReturn(Optional.of(bookUpdate));
+        underTest.updateBook(bookUpdate.getId(), bookUpdate);
+
+        ArgumentCaptor<Book> bookArgumentCaptor = ArgumentCaptor.forClass(Book.class);
+        verify(bookRepository).save(bookArgumentCaptor.capture());
+
+        assertThat(bookArgumentCaptor.getValue().getTitle()).isEqualTo("TITLE UPDATE");
+    }
+
+    @Test
     void willThrowWhenTitleAndAuthorAreTakenInUpdate() {
         // given
         bookDummyOne.setReservation(reservationDummy);
@@ -254,7 +271,7 @@ class BookServiceTest {
         // then
         assertThatThrownBy(() -> underTest.updateBook(1L, bookDummyOne))
                 .isInstanceOf(BookBadRequestException.class)
-                .hasMessageContaining("author and title are taken, enter other values");
+                .hasMessageContaining("author and title are taken");
 
         verify(bookRepository, never()).save(any());
     }
@@ -268,8 +285,8 @@ class BookServiceTest {
         // when
         when(bookRepository.findById(anyLong())).thenReturn(Optional.of(bookDummyOne));
         Reservation updateReservation = new Reservation(
-                new Date(2019,04,10),
-                new Date(2021,05, 10)
+                new Date(2019, 04, 10),
+                new Date(2021, 05, 10)
         );
 
         Book newBook = new Book(
@@ -290,7 +307,41 @@ class BookServiceTest {
 
         Book capturedBook = bookArgumentCaptor.getValue();
 
-        assertThat(capturedBook.getReservation().getEndDate()).isEqualTo(new Date(2021,05,10));
+        assertThat(capturedBook.getReservation().getEndDate()).isEqualTo(new Date(2021, 05, 10));
+    }
 
+    @Test
+    void willThrowWhenBookIsReservedAndItIsNotFillInfoInUpdate(){
+        // given
+        bookDummyOne.setReservation(reservationDummy);
+        bookDummyOne.setId(1L);
+        bookDummyOne.setState(State.RESERVED);
+
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(bookDummyOne));
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.updateBook(bookDummyOne.getId(), bookDummyOne))
+                .isInstanceOf(BookBadRequestException.class)
+                .hasMessageContaining("Complete reservation info");
+
+        verify(bookRepository, never()).save(any());
+    }
+
+    @Test
+    void willThrowWhenBookIsAvailableAndItIsFillInfoInUpdate() {
+        // given
+        bookDummyTwo.setReservation(reservationDummyTwo);
+        reservationDummyTwo.setUser(userDummyTwo);
+        bookDummyTwo.setId(2L);
+
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(bookDummyTwo));
+
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.updateBook(bookDummyTwo.getId(), bookDummyTwo))
+                .isInstanceOf(BookBadRequestException.class)
+                .hasMessageContaining("Reservation info must be null");
+
+        verify(bookRepository, never()).save(any());
     }
 }
