@@ -63,15 +63,6 @@ class BookServiceTest {
             56325639,
             "juanitalazo@gmail.com"
     );
-/*
-    @Test
-    void canGetAllBooks() {
-        // when
-        underTest.getBooks();
-        // then
-        verify(bookRepository).findAll(Sort.by("title").ascending());
-    }
-*/
 
     @Test
     void canGetAllBooks() {
@@ -286,7 +277,41 @@ class BookServiceTest {
     }
 
     @Test
-    void willThrowWhenBookIsReservedAndItIsNotFillInfoInUpdate() {
+    void canUpdateReservation() throws BookNotFoundException {
+        // given
+        bookDummyOne.setReservation(reservationDummy);
+        bookDummyOne.setId(1L);
+
+        // when
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(bookDummyOne));
+        Reservation updateReservation = new Reservation(
+                new Date(2019, 04, 10),
+                new Date(2021, 05, 10)
+        );
+
+        Book newBook = new Book(
+                "Title One",
+                "Anonymus",
+                2021,
+                State.RESERVED
+        );
+        newBook.setReservation(updateReservation);
+        newBook.setId(1L);
+
+        when(bookRepository.findById(1L)).thenReturn(Optional.of(newBook));
+        underTest.updateReservation(bookDummyOne.getId(), updateReservation);
+
+        // then
+        ArgumentCaptor<Book> bookArgumentCaptor = ArgumentCaptor.forClass(Book.class);
+        verify(bookRepository).save(bookArgumentCaptor.capture());
+
+        Book capturedBook = bookArgumentCaptor.getValue();
+
+        assertThat(capturedBook.getReservation().getEndDate()).isEqualTo(new Date(2021, 05, 10));
+    }
+
+    @Test
+    void willThrowWhenBookIsReservedAndItIsNotFillInfoInUpdate(){
         // given
         bookDummyOne.setReservation(reservationDummy);
         bookDummyOne.setId(1L);
