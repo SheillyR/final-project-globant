@@ -26,8 +26,7 @@ public class BookService {
     }
 
 
-    public List<Book> getBooks() {
-
+    public List<Book> getAllBooks() {
         return bookRepository.findAll(Sort.by("title").ascending());
     }
 
@@ -42,7 +41,7 @@ public class BookService {
         return book;
     }
 
-    public void addNewBook(Book book) throws BookBadRequestException {
+    public void createBook(Book book) throws BookBadRequestException {
         Optional<Book> bookByAuthorAndTitle = bookRepository
                 .findBookByAuthorAndTitle(book.getAuthor(), book.getTitle());
         if(bookByAuthorAndTitle.isPresent()){
@@ -61,32 +60,32 @@ public class BookService {
         boolean existsBook = bookRepository.existsById(bookId);
         if (!existsBook) {
             throw new BookNotFoundException(
-                    "book with id " + bookId + " does not exists");
+                    "book with id " + bookId + " does not exist");
         }
         bookRepository.deleteById(bookId);
     }
 
     @Transactional
     public void updateBook(Long bookId,
-                           Book newBook) throws BookNotFoundException, BookBadRequestException {
+                           Book updateBook) throws BookNotFoundException, BookBadRequestException {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException(
                         "book with id " + bookId + " does not exist"));
 
-        if(newBook.getAuthor() != null
-                && newBook.getAuthor().length() > 0
-                && newBook.getTitle() != null
-                && newBook.getTitle().length() > 0
-                && newBook.getEditorialYear() != 0
+        if(updateBook.getAuthor() != null
+                && updateBook.getAuthor().length() > 0
+                && updateBook.getTitle() != null
+                && updateBook.getTitle().length() > 0
+                && updateBook.getEditorialYear() != 0
         ) {
             Optional<Book> bookByAuthorAndTitle = bookRepository
-                    .findBookByAuthorAndTitle(newBook.getAuthor(), newBook.getTitle());
+                    .findBookByAuthorAndTitle(updateBook.getAuthor(), updateBook.getTitle());
 
-            book.setEditorialYear(newBook.getEditorialYear());
+            book.setEditorialYear(updateBook.getEditorialYear());
 
             if(!bookByAuthorAndTitle.isPresent()) {
-                book.setTitle(newBook.getTitle());
-                book.setAuthor(newBook.getAuthor());
+                book.setTitle(updateBook.getTitle());
+                book.setAuthor(updateBook.getAuthor());
 
             } else {
                 throw new BookBadRequestException("author and title are taken");
@@ -100,20 +99,20 @@ public class BookService {
             throw new BookBadRequestException("Reservation info must be null");
         }
 
-        book.setState(newBook.getState());
-        book.setReservation(newBook.getReservation());
+        book.setState(updateBook.getState());
+        book.setReservation(updateBook.getReservation());
 
         bookRepository.save(book);
     }
 
     @Transactional
-    public void updateReservation(Long bookId, Reservation newReservation) throws BookNotFoundException {
+    public void updateReservation(Long bookId, Reservation updateReservation) throws BookNotFoundException {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException(
                         "book with id " + bookId + " does not exist"));
 
-        book.getReservation().setStartDate(newReservation.getStartDate());
-        book.getReservation().setEndDate(newReservation.getEndDate());
+        book.getReservation().setStartDate(updateReservation.getStartDate());
+        book.getReservation().setEndDate(updateReservation.getEndDate());
 
         bookRepository.save(book);
     }
