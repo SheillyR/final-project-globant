@@ -24,6 +24,8 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:8.0.25'
 	runtimeOnly 'mysql:mysql-connector-java'
 	runtimeOnly 'com.h2database:h2'
+	implementation "io.springfox:springfox-boot-starter:3.0.0"
+
 }
 
 test {
