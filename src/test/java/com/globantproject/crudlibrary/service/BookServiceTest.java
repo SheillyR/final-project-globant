@@ -119,7 +119,7 @@ class BookServiceTest {
         bookDummyTwo.setReservation(reservationDummy);
         bookDummyTwo.setId(2L);
         // when
-        when((bookRepository).findById(bookDummyTwo.getId())).thenReturn(Optional.of(bookDummyTwo));
+        when(bookRepository.findById(bookDummyTwo.getId())).thenReturn(Optional.of(bookDummyTwo));
         Book book = underTest.getBookById(2L);
         assertThat(book.getId()).isEqualTo(2L);
         // then
@@ -205,28 +205,48 @@ class BookServiceTest {
 
         verify(bookRepository, never()).save(any());
     }
-/*
+
     @Test
     void canDeleteBook() throws BookNotFoundException {
         //given
-        String title = "Title One";
-        String author = "Anonymous";
-        Reservation reservationInfoTest = null;
+        given(bookRepository.existsById(anyLong())).willReturn(true);
 
-        Book bookDeleted = new Book(
-                title,
-                author,
-                2000,
-                State.AVAILABLE
-        );
-        bookDeleted.setReservation(reservationInfoTest);
-        bookDeleted.setId(2L);
+        //when
+        underTest.deleteBook(2L);
 
-        underTest.deleteBook(bookDeleted.getId());
+        //then
+        ArgumentCaptor<Long> bookArgumentCaptor =
+                ArgumentCaptor.forClass(Long.class);
 
-        verify(bookRepository, times(1)).deleteById(bookDeleted.getId());
+        verify(bookRepository)
+                .existsById(bookArgumentCaptor.capture());
+        assertThat(bookArgumentCaptor.getValue()).isEqualTo(2L);
+
+        verify(bookRepository, times(1))
+                .deleteById(bookArgumentCaptor.capture());
+        assertThat(bookArgumentCaptor.getValue()).isEqualTo(2L);
+
     }
-*/
+
+    @Test
+    void willThrowWhenBookIdNotFoundToDelete() {
+        //given
+        Long id = 1L;
+        given(bookRepository.existsById(anyLong())).willReturn(false);
+
+        //when
+        //then
+        ArgumentCaptor<Long> bookArgumentCaptor =
+                ArgumentCaptor.forClass(Long.class);
+
+        assertThatThrownBy(() -> underTest.deleteBook(id))
+                .isInstanceOf(BookNotFoundException.class)
+                .hasMessageContaining("book with id 1 does not exist");
+
+        verify(bookRepository, never()).save(any());
+
+    }
+
     @Test
     @Disabled
     void updateBook() {
