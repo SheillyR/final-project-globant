@@ -241,37 +241,6 @@ class BookServiceTest {
     }
 
     @Test
-    void updateBook() throws BookBadRequestException, BookNotFoundException {
-        // given
-        bookDummyOne.setReservation(reservationDummy);
-        bookDummyOne.setId(1L);
-
-        Book newBook = new Book(
-                "Title One",
-                "Anonymous",
-                2021,
-                State.AVAILABLE
-        );
-        newBook.setReservation(reservationDummy);
-        newBook.setId(1L);
-
-        // when
-        when(bookRepository.findById(bookDummyOne.getId())).thenReturn(Optional.of(newBook));
-        underTest.updateBook(bookDummyOne.getId(), newBook);
-
-        // then
-        ArgumentCaptor<Book> bookArgumentCaptor =
-                ArgumentCaptor.forClass(Book.class);
-
-        verify(bookRepository).save(bookArgumentCaptor.capture());
-
-        Book capturedBook = bookArgumentCaptor.getValue();
-
-        assertThat(capturedBook).isEqualTo(newBook);
-
-    }
-    /*
-    @Test
     void willThrowWhenTitleAndAuthorAreTakenInUpdate() {
         // given
         bookDummyOne.setReservation(reservationDummy);
@@ -285,13 +254,43 @@ class BookServiceTest {
         // then
         assertThatThrownBy(() -> underTest.updateBook(1L, bookDummyOne))
                 .isInstanceOf(BookBadRequestException.class)
-                .hasMessageContaining("This author and title are taken, enter other values");
+                .hasMessageContaining("author and title are taken, enter other values");
 
         verify(bookRepository, never()).save(any());
     }
-*/
+
     @Test
-    @Disabled
-    void updateReservation() {
+    void canUpdateReservation() throws BookNotFoundException {
+        // given
+        bookDummyOne.setReservation(reservationDummy);
+        bookDummyOne.setId(1L);
+
+        // when
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(bookDummyOne));
+        Reservation updateReservation = new Reservation(
+                new Date(2019,04,10),
+                new Date(2021,05, 10)
+        );
+
+        Book newBook = new Book(
+                "Title One",
+                "Anonymus",
+                2021,
+                State.RESERVED
+        );
+        newBook.setReservation(updateReservation);
+        newBook.setId(1L);
+
+        when(bookRepository.findById(1L)).thenReturn(Optional.of(newBook));
+        underTest.updateReservation(bookDummyOne.getId(), updateReservation);
+
+        // then
+        ArgumentCaptor<Book> bookArgumentCaptor = ArgumentCaptor.forClass(Book.class);
+        verify(bookRepository).save(bookArgumentCaptor.capture());
+
+        Book capturedBook = bookArgumentCaptor.getValue();
+
+        assertThat(capturedBook.getReservation().getEndDate()).isEqualTo(new Date(2021,05,10));
+
     }
 }
