@@ -211,31 +211,81 @@ class BookServiceTest {
 
         verify(bookRepository, never()).save(any());
     }
-/*
+
     @Test
     void canDeleteBook() throws BookNotFoundException {
         //given
+        given(bookRepository.existsById(anyLong())).willReturn(true);
+
+        //when
+        underTest.deleteBook(2L);
+
+        // then
+        ArgumentCaptor<Long> bookArgumentCaptor =
+                ArgumentCaptor.forClass(Long.class);
+
+        verify(bookRepository).
+                existsById(bookArgumentCaptor.capture());
+        assertThat(bookArgumentCaptor.getValue()).isEqualTo(2L);
+
+        verify(bookRepository, times(1)).deleteById(bookArgumentCaptor.capture());
+        assertThat(bookArgumentCaptor.getValue()).isEqualTo(2L);
+    }
+
+    @Test
+    void willThrowWhenBookDeletedNotFound() throws BookNotFoundException{
+        // given
+        given(bookRepository.existsById(anyLong())).willReturn(false);
+        Long id = 1L;
+
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.deleteBook(id))
+                .isInstanceOf(BookNotFoundException.class)
+                .hasMessageContaining("book with id 1 does not exist");
+
+    }
+
+    @Test
+    void updateBook() throws BookBadRequestException, BookNotFoundException {
+        // given
         String title = "Title One";
         String author = "Anonymous";
         Reservation reservationInfoTest = null;
 
-        Book bookDeleted = new Book(
+        Book newBook = new Book(
+                title,
+                author,
+                2021,
+                State.AVAILABLE
+        );
+        newBook.setReservation(reservationInfoTest);
+        newBook.setId(1L);
+
+        Book book = new Book(
                 title,
                 author,
                 2000,
                 State.AVAILABLE
         );
-        bookDeleted.setReservation(reservationInfoTest);
-        bookDeleted.setId(2L);
+        book.setId(1L);
+        book.setReservation(reservationInfoTest);
 
-        underTest.deleteBook(bookDeleted.getId());
+        // when
+        when(bookRepository.findById(newBook.getId())).thenReturn(Optional.of(book));
+        book.setEditorialYear(newBook.getEditorialYear());
+        underTest.updateBook(newBook.getId(), book);
 
-        verify(bookRepository, times(1)).deleteById(bookDeleted.getId());
-    }
-*/
-    @Test
-    @Disabled
-    void updateBook() {
+        // then
+        ArgumentCaptor<Book> bookArgumentCaptor =
+                ArgumentCaptor.forClass(Book.class);
+
+        verify(bookRepository).save(bookArgumentCaptor.capture());
+
+        Book capturedBook = bookArgumentCaptor.getValue();
+
+        assertThat(capturedBook).isEqualTo(book);
+
     }
 
     @Test
