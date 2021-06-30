@@ -18,52 +18,53 @@ public class BookController {
 
     private final BookService bookService;
 
-    // Instance of BookService class in controller
-    // Add annotation @Service in BookService class to work
     @Autowired
     public BookController(BookService bookService) {
         this.bookService = bookService;
     }
 
-    @GetMapping
-    public List<Book> getBooks() {
-        return bookService.getBooks();
+    @GetMapping(path = "/getAllBooks")
+    public List<Book> getAllBooks() {
+        return bookService.getAllBooks();
     }
 
-    @GetMapping(path = "/state/{state}")
+    @GetMapping(path = "/getBooksByState/{state}")
     public List<Book> getBooksByState(@PathVariable("state") State state) {
-
         return bookService.getBooksByState(state);
     }
 
-    @GetMapping(path = "/id/{bookId}")
-    public Book getBookById(@PathVariable("bookId") Long bookId) throws BookNotFoundException {
+    @GetMapping(path = "/getBookById/{bookId}")
+    public Book getBookById(@PathVariable("bookId") Long bookId)
+            throws BookNotFoundException {
         return bookService.getBookById(bookId);
     }
 
-    @PostMapping
+    @PostMapping(path = "/createBook")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void createNewBook(@RequestBody Book book) throws BookBadRequestException {
-        bookService.addNewBook(book);
+    public void createBook(@RequestBody Book book)
+            throws BookBadRequestException {
+        bookService.createBook(book);
     }
 
-    @DeleteMapping(path = "{bookId}")
-    public void deleteBook(@PathVariable("bookId") Long bookId) throws BookNotFoundException {
+    @DeleteMapping(path = "/deleteBookById/{bookId}")
+    public void deleteBook(@PathVariable("bookId") Long bookId)
+            throws BookNotFoundException {
         bookService.deleteBook(bookId);
     }
 
     @PutMapping(path = "/updateBook/{bookId}")
     public void updateBook(
             @PathVariable("bookId") Long bookId,
-            @RequestBody(required = false) Book book) throws BookNotFoundException, BookBadRequestException {
+            @RequestBody(required = false) Book book)
+            throws BookNotFoundException, BookBadRequestException {
         bookService.updateBook(bookId, book);
     }
 
-    @PutMapping(path = "/updateReservation/{bookId}")
-    public void updateReservation(
+    @PutMapping(path = "/updateReservationByBookId/{bookId}")
+    public void updateReservationByBookId(
             @PathVariable("bookId") Long bookId,
-            @RequestBody(required = false) Reservation reservation) throws BookNotFoundException {
+            @RequestBody(required = false) Reservation reservation)
+            throws BookNotFoundException {
         bookService.updateReservation(bookId, reservation);
     }
-
 }
