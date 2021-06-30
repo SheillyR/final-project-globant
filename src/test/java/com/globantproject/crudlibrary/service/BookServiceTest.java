@@ -214,44 +214,82 @@ class BookServiceTest {
         //when
         underTest.deleteBook(2L);
 
-        //then
+        // then
         ArgumentCaptor<Long> bookArgumentCaptor =
                 ArgumentCaptor.forClass(Long.class);
 
-        verify(bookRepository)
-                .existsById(bookArgumentCaptor.capture());
+        verify(bookRepository).
+                existsById(bookArgumentCaptor.capture());
         assertThat(bookArgumentCaptor.getValue()).isEqualTo(2L);
 
-        verify(bookRepository, times(1))
-                .deleteById(bookArgumentCaptor.capture());
+        verify(bookRepository, times(1)).deleteById(bookArgumentCaptor.capture());
         assertThat(bookArgumentCaptor.getValue()).isEqualTo(2L);
-
     }
 
     @Test
-    void willThrowWhenBookIdNotFoundToDelete() {
-        //given
-        Long id = 1L;
+    void willThrowWhenBookDeletedNotFound() throws BookNotFoundException{
+        // given
         given(bookRepository.existsById(anyLong())).willReturn(false);
+        Long id = 1L;
 
-        //when
-        //then
-        ArgumentCaptor<Long> bookArgumentCaptor =
-                ArgumentCaptor.forClass(Long.class);
-
+        // when
+        // then
         assertThatThrownBy(() -> underTest.deleteBook(id))
                 .isInstanceOf(BookNotFoundException.class)
                 .hasMessageContaining("book with id 1 does not exist");
 
-        verify(bookRepository, never()).save(any());
-
     }
 
     @Test
-    @Disabled
-    void updateBook() {
-    }
+    void updateBook() throws BookBadRequestException, BookNotFoundException {
+        // given
+        bookDummyOne.setReservation(reservationDummy);
+        bookDummyOne.setId(1L);
 
+        Book newBook = new Book(
+                "Title One",
+                "Anonymous",
+                2021,
+                State.AVAILABLE
+        );
+        newBook.setReservation(reservationDummy);
+        newBook.setId(1L);
+
+        // when
+        when(bookRepository.findById(bookDummyOne.getId())).thenReturn(Optional.of(newBook));
+        underTest.updateBook(bookDummyOne.getId(), newBook);
+
+        // then
+        ArgumentCaptor<Book> bookArgumentCaptor =
+                ArgumentCaptor.forClass(Book.class);
+
+        verify(bookRepository).save(bookArgumentCaptor.capture());
+
+        Book capturedBook = bookArgumentCaptor.getValue();
+
+        assertThat(capturedBook).isEqualTo(newBook);
+
+    }
+    /*
+    @Test
+    void willThrowWhenTitleAndAuthorAreTakenInUpdate() {
+        // given
+        bookDummyOne.setReservation(reservationDummy);
+        bookDummyOne.setId(1L);
+
+        when(bookRepository.findById(bookDummyOne.getId())).thenReturn(Optional.of(bookDummyOne));
+        given(bookRepository.findBookByAuthorAndTitle("Anonymous", "Title One"))
+                .willReturn(java.util.Optional.of(bookDummyOne));
+
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.updateBook(1L, bookDummyOne))
+                .isInstanceOf(BookBadRequestException.class)
+                .hasMessageContaining("This author and title are taken, enter other values");
+
+        verify(bookRepository, never()).save(any());
+    }
+*/
     @Test
     @Disabled
     void updateReservation() {
