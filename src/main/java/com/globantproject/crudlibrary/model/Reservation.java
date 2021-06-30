@@ -11,7 +11,7 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long reservationId;
+    private Long id;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "userId", nullable = false)
@@ -25,17 +25,14 @@ public class Reservation {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date endDate;
 
-    public Reservation(){
+    public Reservation(){ }
 
-    }
     public Reservation(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
+    public Date getStartDate() { return startDate; }
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;

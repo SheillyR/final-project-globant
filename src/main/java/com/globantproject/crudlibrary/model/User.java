@@ -21,9 +21,8 @@ public class User {
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Enter a valid email")
     private String email;
 
-    public User() {
+    public User() { }
 
-    }
     public User(String name, String lastName, Integer documentNumber, String email) {
         this.name = name;
         this.lastName = lastName;

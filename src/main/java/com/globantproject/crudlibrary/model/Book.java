@@ -1,7 +1,6 @@
 package com.globantproject.crudlibrary.model;
 
 import javax.persistence.*;
-import java.util.Locale;
 
 //This tells Hibernate to make a table out of this class
 @Entity
@@ -28,9 +27,7 @@ public class Book {
     @OneToOne(cascade = CascadeType.ALL)
     private Reservation reservation;
 
-    public Book(){
-
-    }
+    public Book(){ }
 
     public Book(String title, String author, int editorialYear, State state) {
         this.title = title;
@@ -39,13 +36,9 @@ public class Book {
         this.state = state;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id) { this.id = id; }
 
     public String getTitle() {
         return title;
