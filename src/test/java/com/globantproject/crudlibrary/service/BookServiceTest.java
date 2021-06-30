@@ -232,7 +232,7 @@ class BookServiceTest {
     }
 
     @Test
-    void updateBook() throws BookBadRequestException, BookNotFoundException {
+    void canUpdateBook() throws BookBadRequestException, BookNotFoundException {
         // given
         bookDummyOne.setReservation(reservationDummy);
         bookDummyOne.setId(1L);
@@ -277,40 +277,6 @@ class BookServiceTest {
     }
 
     @Test
-    void canUpdateReservation() throws BookNotFoundException {
-        // given
-        bookDummyOne.setReservation(reservationDummy);
-        bookDummyOne.setId(1L);
-
-        // when
-        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(bookDummyOne));
-        Reservation updateReservation = new Reservation(
-                new Date(2019, 04, 10),
-                new Date(2021, 05, 10)
-        );
-
-        Book newBook = new Book(
-                "Title One",
-                "Anonymus",
-                2021,
-                State.RESERVED
-        );
-        newBook.setReservation(updateReservation);
-        newBook.setId(1L);
-
-        when(bookRepository.findById(1L)).thenReturn(Optional.of(newBook));
-        underTest.updateReservation(bookDummyOne.getId(), updateReservation);
-
-        // then
-        ArgumentCaptor<Book> bookArgumentCaptor = ArgumentCaptor.forClass(Book.class);
-        verify(bookRepository).save(bookArgumentCaptor.capture());
-
-        Book capturedBook = bookArgumentCaptor.getValue();
-
-        assertThat(capturedBook.getReservation().getEndDate()).isEqualTo(new Date(2021, 05, 10));
-    }
-
-    @Test
     void willThrowWhenBookIsReservedAndItIsNotFillInfoInUpdate(){
         // given
         bookDummyOne.setReservation(reservationDummy);
@@ -343,5 +309,34 @@ class BookServiceTest {
                 .hasMessageContaining("Reservation info must be null");
 
         verify(bookRepository, never()).save(any());
+    }
+
+    @Test
+    void canUpdateReservation() throws BookNotFoundException {
+        // given
+        bookDummyTwo.setState(State.RESERVED);
+        bookDummyTwo.setReservation(reservationDummyTwo);
+        bookDummyTwo.setId(1L);
+
+        // when
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(bookDummyTwo));
+        Reservation updateReservation = new Reservation(
+                new Date(2019, 04, 10),
+                new Date(2021, 06, 30)
+        );
+
+        bookDummyTwo.setReservation(updateReservation);
+        bookDummyTwo.setId(1L);
+
+        when(bookRepository.findById(1L)).thenReturn(Optional.of(bookDummyTwo));
+        underTest.updateReservation(bookDummyTwo.getId(), updateReservation);
+
+        // then
+        ArgumentCaptor<Book> bookArgumentCaptor = ArgumentCaptor.forClass(Book.class);
+        verify(bookRepository).save(bookArgumentCaptor.capture());
+
+        Book capturedBook = bookArgumentCaptor.getValue();
+
+        assertThat(capturedBook.getReservation().getEndDate()).isEqualTo(new Date(2021, 06, 30));
     }
 }
