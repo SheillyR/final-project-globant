@@ -52,7 +52,7 @@
  ## Developed methods
  
  ```
-http://localhost:8081/api/books
+http://localhost:8081/api/book
 ```
  
  **HTTP Method: GET**
@@ -60,52 +60,67 @@ http://localhost:8081/api/books
  *_Get all books_*
 
 ```
-http://localhost:8081/api/books/getAllBooks
+http://localhost:8081/api/book/getAllBooks
 ```
  
  *_Get book by Id_*
 
 ```
-http://localhost:8081/api/books/getAllBooks
+http://localhost:8081/api/book/getBookById/{bookId}
 ```
   
  *_Get books by State_*
 
 ```
-http://localhost:8081/api/books/getAllBooks
+http://localhost:8081/api/book/getBookByState/{state}
 ```
 
  **HTTP Method: POST**
  
- ```
-http://localhost:8080/springdatacouchbase/users
+*_Create book_*
+
+```
+http://localhost:8080/api/book/createBook
+
 ```
 ```
 {
-  "name": "Carlos",
-  "nicknames": ["charz"],
-  "age": 25,
-  "email": "carlos1@yopmail.com"
+  "title": "Title A",
+  "author": "Anonymous",
+  "editorialYear": 2000,
+  "state": "AVAILABLE",
+  "reservation": null
 }
 ```
-
  **HTTP Method: PUT**
  
- ```
-http://localhost:8080/springdatacouchbase/users
+*_Update book by Id_*
+```
+http://localhost:8080/api/book/updateBook/{bookId}
 ```
 ```
 {
-  "name": "Carlos",
-  "nicknames": ["charz"],
-  "age": 25,
-  "email": "carlos1@yopmail.com"
+  "title": "Title B",
+  "author": "Somebody",
+  "editorialYear": 2021,
+  "state": "AVAILABLE",
+  "reservation": null
+}
+```
+*_Update reservation by book Id_*
+```
+http://localhost:8080/api/book/updateReservationByBookId/{bookId}
+```
+```
+{
+  "startDate": "10-05-2021",
+  "endDate": "26-06-2021"
 }
 ```
 **HTTP Method: DELETE**
  
- *_Delete bok_*
+ *_Delete book by Id_*
 
 ```
-http://localhost:8081/api/books/getAllBooks
+http://localhost:8081/api/book/deleteBookById/{bookId}
 ```
