@@ -67,7 +67,7 @@ class BookRepositoryTest {
     }
 
     @Test
-    void findBooksByAvailableState() {
+    void itShouldFindBooksByAvailableState() {
         // given
         bookOne.setReservation(nullReservation);
         reservationTwo.setUser(userTwo);
@@ -86,7 +86,7 @@ class BookRepositoryTest {
     }
 
     @Test
-    void findBooksByReservedState() {
+    void itShouldFindBooksByReservedState() {
         // given
         bookOne.setReservation(nullReservation);
         reservationTwo.setUser(userTwo);
