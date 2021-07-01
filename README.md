@@ -7,7 +7,7 @@
 # Back in the Game - Java Project 👩‍💻
 ### Made by [Arango M.](https://github.com/emae1712) & [Rodas S.](https://github.com/SheillyR)
 >CRUD Library
-## Índice
+## Index
 
 * [1. Resumen del proyecto](#1-resumen-del-proyecto)
 * [2. Definición del producto](#2-definición-del-producto)
