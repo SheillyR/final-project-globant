@@ -16,6 +16,14 @@
 * [5. Test de usabilidad](#5-Test-de-usabilidad)
 * [6. Objetivos de aprendizaje](#6-Objetivos-de-aprendizaje)
 
+## Overview
+
+## Schema
+
+<p align="center">
+  <img width=800px src="https://user-images.githubusercontent.com/68023969/124052723-9b86b680-d9e4-11eb-8ae1-dcd9bb978ddc.JPG" alt="Globant">
+</p>
+
 ## Architecture
  
  1. **Model:**
@@ -26,6 +34,10 @@
  6. **Configuration:**
  
  ## Technologies
+ 
+ <p >
+  <img align="right" height="180px" src="https://user-images.githubusercontent.com/68023969/124051684-90328b80-d9e2-11eb-8ad6-0e960fdcb4a5.png">
+</p>
 
 1. Spring Boot (spring-boot-starter-web, spring-boot-starter-tomcat, spring-boot-starter-test, spring-boot-starter-data-couchbase)
 2. Java 11
@@ -38,6 +50,10 @@
  2. **Unit Test (for the Service):** it uses the Mockito framework with hamcrest matchers, mock and injectMocks annotations 
  
  ## Developed methods
+ 
+ ```
+http://localhost:8081/api/books
+```
  
  
  
