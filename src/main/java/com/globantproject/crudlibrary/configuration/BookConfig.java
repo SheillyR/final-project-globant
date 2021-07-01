@@ -52,7 +52,6 @@ public class BookConfig {
             bookRepository.saveAll(
                     List.of(bookOne, bookTwo)
             );
-
         };
     }
 }
