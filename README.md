@@ -21,7 +21,7 @@
 ## Schema
 
 <p align="center">
-  <img width=800px src="https://user-images.githubusercontent.com/68023969/124052723-9b86b680-d9e4-11eb-8ae1-dcd9bb978ddc.JPG" alt="Globant">
+  <img width=700px src="https://user-images.githubusercontent.com/68023969/124052723-9b86b680-d9e4-11eb-8ae1-dcd9bb978ddc.JPG" alt="Globant">
 </p>
 
 ## Architecture
