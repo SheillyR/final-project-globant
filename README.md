@@ -55,5 +55,57 @@
 http://localhost:8081/api/books
 ```
  
+ **HTTP Method: GET**
  
+ *_Get all books_*
+
+```
+http://localhost:8081/api/books/getAllBooks
+```
  
+ *_Get book by Id_*
+
+```
+http://localhost:8081/api/books/getAllBooks
+```
+  
+ *_Get books by State_*
+
+```
+http://localhost:8081/api/books/getAllBooks
+```
+
+ **HTTP Method: POST**
+ 
+ ```
+http://localhost:8080/springdatacouchbase/users
+```
+```
+{
+  "name": "Carlos",
+  "nicknames": ["charz"],
+  "age": 25,
+  "email": "carlos1@yopmail.com"
+}
+```
+
+ **HTTP Method: PUT**
+ 
+ ```
+http://localhost:8080/springdatacouchbase/users
+```
+```
+{
+  "name": "Carlos",
+  "nicknames": ["charz"],
+  "age": 25,
+  "email": "carlos1@yopmail.com"
+}
+```
+**HTTP Method: DELETE**
+ 
+ *_Delete bok_*
+
+```
+http://localhost:8081/api/books/getAllBooks
+```
