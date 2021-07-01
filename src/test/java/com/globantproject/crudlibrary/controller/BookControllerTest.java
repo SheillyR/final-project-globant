@@ -24,7 +24,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @RunWith(SpringRunner.class)
 @WebMvcTest(BookController.class)
 class BookControllerTest {
@@ -60,11 +59,11 @@ class BookControllerTest {
     }
 
     @Test
-    public void shouldFetchAllBooks() throws Exception {
+    public void itShouldFetchAllBooks() throws Exception {
         dummyBookOne.setReservation(dummyReservation);
         dummyBookTwo.setReservation(dummyReservation);
 
-        given(bookService.getBooks()).willReturn(bookList);
+        given(bookService.getAllBooks()).willReturn(bookList);
 
         mvc.perform(get("/api/book"))
                 .andExpect(status().isOk())
@@ -72,8 +71,7 @@ class BookControllerTest {
     }
 
     @Test
-    void getBooksByState() throws Exception {
-
+    void itShouldGetBooksByState() throws Exception {
         given(bookService.getBooksByState(State.AVAILABLE)).willReturn(bookList);
 
         mvc.perform((get("/api/book/state/{state}", State.AVAILABLE)))
@@ -82,8 +80,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void shouldFetchOneBookById() throws Exception {
-
+    public void itShouldFetchOneBookById() throws Exception {
         Long bookId = 1L;
         dummyBookOne.setReservation(dummyReservation);
         dummyBookOne.setId(bookId);
@@ -95,26 +92,9 @@ class BookControllerTest {
                 .andExpect(jsonPath("$.title", is(dummyBookOne.getTitle())))
                 .andExpect(jsonPath("$.author", is(dummyBookOne.getAuthor())));
     }
-/*
+
     @Test
-    public void shouldCreateNewBook() throws Exception {
-
-        dummyBookOne.setId(1L);
-
-        given(bookService.addNewBook(any(Book.class))).willReturn(void);
-        doNothing().when(bookService).addNewBook(dummyBookOne);
-
-        String jsonBody = "{\"id\": 1,\"title\": \"Title One\", \"author\": \"Anonymous\", \"editorialYear\": 2000, \"state\": \"AVAILABLE\", \"reservationInfo\": null}";
-        mvc.perform(post("/api/book"))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonBody)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-    }
-*/
-    @Test
-    void shouldDeleteBook() throws Exception {
-
+    void itShouldDeleteBook() throws Exception {
         Long bookId = 1L;
         dummyBookOne.setId(bookId);
 
@@ -123,13 +103,5 @@ class BookControllerTest {
 
         mvc.perform(delete("/api/book/{bookId}", dummyBookOne.getId()))
                 .andExpect(status().isOk());
-    }
-
-    @Test
-    void updateBook() {
-    }
-
-    @Test
-    void updateReservation() {
     }
 }
