@@ -22,7 +22,7 @@ class BookRepositoryTest {
     @Autowired
     private BookRepository underTest;
 
-    Reservation reservationInfoTest = null;
+    Reservation nullReservation = null;
 
     Book bookOne = new Book(
             "Title One",
@@ -30,6 +30,14 @@ class BookRepositoryTest {
             2000,
             State.AVAILABLE
     );
+
+    Book bookTwo = new Book(
+            "Hola Mundo",
+            "None",
+            2021,
+            State.RESERVED
+    );
+
     Reservation reservationTwo = new Reservation(
             new Date(2019,04,10),
             new Date(2021,05, 10)
@@ -41,12 +49,6 @@ class BookRepositoryTest {
             56325639,
             "juanitalazo@gmail.com"
     );
-    Book bookTwo = new Book(
-            "Hola Mundo",
-            "None",
-            2021,
-            State.RESERVED
-    );
 
     List<Book> availableBooks = new ArrayList<>();
     List<Book> reservedBooks = new ArrayList<>();
@@ -54,7 +56,7 @@ class BookRepositoryTest {
     @Test
     void itShouldFindBookByAuthorAndTitle() {
         // given
-        bookOne.setReservation(reservationInfoTest);
+        bookOne.setReservation(nullReservation);
         underTest.save(bookOne);
 
         // when
@@ -67,7 +69,7 @@ class BookRepositoryTest {
     @Test
     void findBooksByAvailableState() {
         // given
-        bookOne.setReservation(reservationInfoTest);
+        bookOne.setReservation(nullReservation);
         reservationTwo.setUser(userTwo);
         bookTwo.setReservation(reservationTwo);
 
@@ -86,7 +88,7 @@ class BookRepositoryTest {
     @Test
     void findBooksByReservedState() {
         // given
-        bookOne.setReservation(reservationInfoTest);
+        bookOne.setReservation(nullReservation);
         reservationTwo.setUser(userTwo);
         bookTwo.setReservation(reservationTwo);
 
