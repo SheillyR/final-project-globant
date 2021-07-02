@@ -21,9 +21,9 @@ public class BookConfig {
             Reservation nullReservation = null;
 
             Book bookOne = new Book(
-                    "Title A",
-                    "Anonymous",
-                    2000,
+                    "BEGINNING SPRING BOOT 2: APPLICATIONS AND MICROSERVICES WITH THE SPRING FRAMEWORK",
+                    "K. SIVA PRASAD REDDY",
+                    2017,
                     State.AVAILABLE
             );
 
@@ -32,17 +32,17 @@ public class BookConfig {
                     new Date(2021,05, 10)
             );
             Book bookTwo = new Book(
-                    "Title B",
-                    "Anonymous",
-                    1900,
+                    "CORE JAVA VOLUME I – FUNDAMENTALS",
+                    "CAY S. HORSTMANN",
+                    2019,
                     State.RESERVED
             );
 
             User userTwo = new User(
-                    "Juanita",
-                    "Lazo",
+                    "JUANITA",
+                    "LAZO",
                     56325639,
-                    "juanitalazo@gmail.com"
+                    "JUANITALAZO@GMAIL.COM"
             );
 
             bookOne.setReservation(nullReservation);
