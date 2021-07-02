@@ -18,6 +18,7 @@ public class BookConfig {
     @Bean
     CommandLineRunner commandLineRunner(BookRepository bookRepository) {
         return args -> {
+            /*
             Reservation nullReservation = null;
 
             Book bookOne = new Book(
@@ -52,7 +53,8 @@ public class BookConfig {
 
             bookRepository.saveAll(
                     List.of(bookOne, bookTwo)
-            );
+            );*/
         };
+
     }
 }
