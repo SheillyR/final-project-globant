@@ -91,15 +91,15 @@ public class BookService {
                 throw new BookBadRequestException("author and title are taken");
             }
         }
+        book.setState(updateBook.getState());
 
-        if(Objects.equals(book.getState(), State.RESERVED) && book.getReservation() == null){
+        if(Objects.equals(book.getState(), State.RESERVED)  && book.getReservation() == null){
             throw new BookBadRequestException("Complete reservation info");
         }
         if(Objects.equals(book.getState(), State.AVAILABLE) && book.getReservation() != null){
             throw new BookBadRequestException("Reservation info must be null");
         }
 
-        book.setState(updateBook.getState());
         book.setReservation(updateBook.getReservation());
 
         bookRepository.save(book);
