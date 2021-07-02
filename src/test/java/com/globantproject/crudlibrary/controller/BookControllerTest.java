@@ -65,7 +65,7 @@ class BookControllerTest {
 
         given(bookService.getAllBooks()).willReturn(bookList);
 
-        mvc.perform(get("/api/book"))
+        mvc.perform(get("/api/book/getAllBooks"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
     }
@@ -74,7 +74,7 @@ class BookControllerTest {
     void itShouldGetBooksByState() throws Exception {
         given(bookService.getBooksByState(State.AVAILABLE)).willReturn(bookList);
 
-        mvc.perform((get("/api/book/state/{state}", State.AVAILABLE)))
+        mvc.perform((get("/api/book/getBooksByState/{state}", State.AVAILABLE)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
     }
@@ -87,7 +87,7 @@ class BookControllerTest {
 
         given(bookService.getBookById(bookId)).willReturn(dummyBookOne);
 
-        mvc.perform(get("/api/book/id/{bookId}", bookId))
+        mvc.perform(get("/api/book/getBookById/{bookId}", bookId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title", is(dummyBookOne.getTitle())))
                 .andExpect(jsonPath("$.author", is(dummyBookOne.getAuthor())));
@@ -101,7 +101,7 @@ class BookControllerTest {
         given(bookService.getBookById(bookId)).willReturn(dummyBookOne);
         doNothing().when(bookService).deleteBook(dummyBookOne.getId());
 
-        mvc.perform(delete("/api/book/{bookId}", dummyBookOne.getId()))
+        mvc.perform(delete("/api/book/deleteBookById/{bookId}", dummyBookOne.getId()))
                 .andExpect(status().isOk());
     }
 }
