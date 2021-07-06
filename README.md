@@ -10,21 +10,23 @@
 ## Index
 
 * [1. Overview](#1-overview)
-* [2. Definición del producto](#2-definición-del-producto)
-* [3. Historias de usuario](#3-historias-de-usuario)
-* [4. Diseño de Interfaz de Usuario](#4-diseño-de-interfaz-de-usuario)
-* [5. Test de usabilidad](#5-Test-de-usabilidad)
-* [6. Objetivos de aprendizaje](#6-Objetivos-de-aprendizaje)
+* [2. Configuration](#2-configuration)
+* [3. Schema](#3-schema)
+* [4. Architecture](#4-architecture)
+* [5. Technologies](#5-technologies)
+* [6. Developed methods](#6-Developed-methods)
 
 ## 1. Overview
 
-## Schema
+## 2. Configuration
+
+## 3. Schema
 
 <p align="center">
   <img width=700px src="https://user-images.githubusercontent.com/68023969/124052723-9b86b680-d9e4-11eb-8ae1-dcd9bb978ddc.JPG" alt="Globant">
 </p>
 
-## Architecture
+## 4. Architecture
  
  1. **Model:**
  2. **Controller:** is the presentation layer where the end points are located
@@ -33,7 +35,7 @@
  5. **Exception:**
  6. **Configuration:**
  
- ## Technologies
+ ## 5. Technologies
  
  <p >
   <img align="right" height="180px" src="https://user-images.githubusercontent.com/68023969/124051684-90328b80-d9e2-11eb-8ad6-0e960fdcb4a5.png">
@@ -51,7 +53,7 @@
  1. **Integration Test (for the Controller):** it uses the Spring Boot Test framework with mockMvc and Jupyter
  2. **Unit Test (for the Service):** it uses the Mockito framework with hamcrest matchers, mock and injectMocks annotations 
  
- ## Developed methods
+ ## 6. Developed methods
  
  ```
 http://localhost:8081/api/book
