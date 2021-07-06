@@ -9,14 +9,14 @@
 >CRUD Library
 ## Index
 
-* [1. Resumen del proyecto](#1-resumen-del-proyecto)
+* [1. Overview](#1-overview)
 * [2. Definición del producto](#2-definición-del-producto)
 * [3. Historias de usuario](#3-historias-de-usuario)
 * [4. Diseño de Interfaz de Usuario](#4-diseño-de-interfaz-de-usuario)
 * [5. Test de usabilidad](#5-Test-de-usabilidad)
 * [6. Objetivos de aprendizaje](#6-Objetivos-de-aprendizaje)
 
-## Overview
+## 1. Overview
 
 ## Schema
 
