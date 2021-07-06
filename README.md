@@ -29,7 +29,7 @@
 ## 4. Architecture
 
 <p >
-  <img align="right" height="200px" src="https://user-images.githubusercontent.com/68023969/124568030-219e6500-de0a-11eb-8926-16aaeb90394c.JPG">
+  <img align="right" height="220px" src="https://user-images.githubusercontent.com/68023969/124568512-9ffb0700-de0a-11eb-9c21-8d922ca16651.JPG">
 </p>
  
  1. **Model:**
