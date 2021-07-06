@@ -23,15 +23,17 @@
 ## 3. Schema
 
 <p align="center">
-  <img width=700px src="https://user-images.githubusercontent.com/68023969/124052723-9b86b680-d9e4-11eb-8ae1-dcd9bb978ddc.JPG" alt="Globant">
+  <img width=600px src="https://user-images.githubusercontent.com/68023969/124574096-c1aabd00-de0f-11eb-8791-1ff353e370b2.png" alt="Globant">
+  <img height="320px" src="https://user-images.githubusercontent.com/68023969/124574330-fc145a00-de0f-11eb-9234-562c1fdc3da6.JPG">
 </p>
+
 
 ## 4. Architecture
 
 <p >
   <img align="right" height="220px" src="https://user-images.githubusercontent.com/68023969/124568512-9ffb0700-de0a-11eb-9c21-8d922ca16651.JPG">
 </p>
- 
+
  1. **Model:**
  2. **Controller:** is the presentation layer where the end points are located
  3. **Service:** is the service layer where the business logic resides
