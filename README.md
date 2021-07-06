@@ -39,10 +39,12 @@
   <img align="right" height="180px" src="https://user-images.githubusercontent.com/68023969/124051684-90328b80-d9e2-11eb-8ad6-0e960fdcb4a5.png">
 </p>
 
-1. Spring Boot (spring-boot-starter-web, spring-boot-starter-tomcat, spring-boot-starter-test, spring-boot-starter-data-couchbase)
-2. Java 11
-3. Tomcat 8.5.x
-6. Gradle
+- [x] Spring Boot (spring-boot-starter-web, spring-boot-starter-data-jpa, spring-boot-starter-test, spring-boot-starter-validation)
+- [x] Java 11
+- [x] Gradle
+- [x] JPA
+- [x] MySQL
+- [x] JUnit and Mockito
 
 ## Tests
 
@@ -89,7 +91,6 @@ http://localhost:8081/api/book/getBookByState/{state}
 
 ```
 http://localhost:8080/api/book/createBook
-
 ```
 ```
 {
