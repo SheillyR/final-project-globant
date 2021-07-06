@@ -55,6 +55,10 @@
 http://localhost:8081/api/book
 ```
  
+ <p >
+  <img align="left" height= 30px src="https://user-images.githubusercontent.com/68023969/124558685-7c32c380-de00-11eb-84b8-cf2fdbd4f4c0.JPG">
+</p>
+
  **HTTP Method: GET**
  
  *_Get all books_*
@@ -75,8 +79,12 @@ http://localhost:8081/api/book/getBookById/{bookId}
 http://localhost:8081/api/book/getBookByState/{state}
 ```
 
+<p >
+  <img align="left" height= 30px src="https://user-images.githubusercontent.com/68023969/124558273-09c1e380-de00-11eb-9b3d-8f6e5a093b6a.JPG">
+</p>
+
  **HTTP Method: POST**
- 
+
 *_Create book_*
 
 ```
@@ -92,6 +100,11 @@ http://localhost:8080/api/book/createBook
   "reservation": null
 }
 ```
+
+<p >
+  <img align="left" height= 30px src="https://user-images.githubusercontent.com/68023969/124559128-f8c5a200-de00-11eb-9db3-180e6e6481c7.JPG">
+</p>
+
  **HTTP Method: PUT**
  
 *_Update book by Id_*
@@ -117,6 +130,11 @@ http://localhost:8080/api/book/updateReservationByBookId/{bookId}
   "endDate": "26-06-2021"
 }
 ```
+
+<p >
+  <img align="left" height= 30px src="https://user-images.githubusercontent.com/68023969/124559504-6a055500-de01-11eb-9952-a3a73d9b1d0e.JPG">
+</p>
+
 **HTTP Method: DELETE**
  
  *_Delete book by Id_*
