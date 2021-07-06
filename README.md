@@ -27,6 +27,10 @@
 </p>
 
 ## 4. Architecture
+
+<p >
+  <img align="right" height="200px" src="https://user-images.githubusercontent.com/68023969/124568030-219e6500-de0a-11eb-8926-16aaeb90394c.JPG">
+</p>
  
  1. **Model:**
  2. **Controller:** is the presentation layer where the end points are located
