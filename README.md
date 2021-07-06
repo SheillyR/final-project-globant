@@ -34,7 +34,7 @@
   <img align="right" height="220px" src="https://user-images.githubusercontent.com/68023969/124568512-9ffb0700-de0a-11eb-9c21-8d922ca16651.JPG">
 </p>
 
- 1. **Model:**
+ 1. **Model:** layer where the classes that represent the tables in the database are created
  2. **Controller:** is the presentation layer where the end points are located
  3. **Service:** is the service layer where the business logic resides
  4. **Repository:** is the persistence layer where the CRUD repository is located
