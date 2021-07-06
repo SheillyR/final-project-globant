@@ -23,7 +23,7 @@
 ## 3. Schema
 
 <p align="center">
-  <img width=600px src="https://user-images.githubusercontent.com/68023969/124574096-c1aabd00-de0f-11eb-8791-1ff353e370b2.png" alt="Globant">
+  <img width=600px src="https://user-images.githubusercontent.com/68023969/124576153-a80a7500-de11-11eb-9265-048eef34d551.png" alt="Globant">
   <img height="320px" src="https://user-images.githubusercontent.com/68023969/124574330-fc145a00-de0f-11eb-9234-562c1fdc3da6.JPG">
 </p>
 
