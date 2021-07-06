@@ -48,7 +48,7 @@
 - [x] MySQL
 - [x] JUnit and Mockito
 
-## Tests
+### Tests
 
  1. **Integration Test (for the Controller):** it uses the Spring Boot Test framework with mockMvc and Jupyter
  2. **Unit Test (for the Service):** it uses the Mockito framework with hamcrest matchers, mock and injectMocks annotations 
